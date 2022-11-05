@@ -3,3 +3,11 @@ plugins {
     id 'com.android.application' version '7.3.0' apply false
     id 'com.android.library' version '7.3.0' apply false
 }
+
+task clean(type: Delete) {
+    delete rootProject.buildDir
+}
+
+ext{
+     nav_version = "2.5.3"
+}
