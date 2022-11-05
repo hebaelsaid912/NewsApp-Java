@@ -30,11 +30,20 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
-        <androidx.viewpager2.widget.ViewPager2
+        <!--<androidx.viewpager2.widget.ViewPager2
             android:id="@+id/main_order_view_pager"
             android:layout_width="0dp"
             android:layout_height="@dimen/_180sdp"
             android:animateLayoutChanges="true"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/textView" />-->
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/main_order_view_pager"
+            android:layout_width="0dp"
+            android:layout_height="@dimen/_180sdp"
+            tools:listitem="@layout/fragment_top_banner"
+            android:orientation="horizontal"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/textView" />
@@ -59,6 +68,7 @@
             android:id="@+id/latest_news_rv"
             android:layout_width="match_parent"
             android:layout_height="0dp"
+            tools:listitem="@layout/latest_new_list_item"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
