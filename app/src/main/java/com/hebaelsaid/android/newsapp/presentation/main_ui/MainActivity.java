@@ -1,7 +1,6 @@
 package com.hebaelsaid.android.newsapp.presentation.main_ui;
 
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.databinding.DataBindingComponent;
 import androidx.databinding.DataBindingUtil;
 
 import android.os.Bundle;

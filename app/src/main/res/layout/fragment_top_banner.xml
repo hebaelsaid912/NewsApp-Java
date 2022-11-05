@@ -4,6 +4,12 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <data>
+        <variable
+            name="model"
+            type="com.hebaelsaid.android.newsapp.domain.model.ui_model.TopBannerUiModel" />
+        <variable
+            name="viewModel"
+            type="com.hebaelsaid.android.newsapp.presentation.fragments.home.top_banner.TopBannerViewModel" />
 
     </data>
 
@@ -42,6 +48,7 @@
                 android:maxLines="2"
                 android:maxEms="12"
                 android:ellipsize="end"
+                android:text="@{model.title}"
                 app:layout_constraintBottom_toBottomOf="@+id/top_banner_img"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="@+id/top_banner_img" />
