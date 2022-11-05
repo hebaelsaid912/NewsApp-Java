@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <data>
+
+    </data>
+
+    <androidx.cardview.widget.CardView
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/_150sdp"
+        app:cardCornerRadius="@dimen/_15sdp"
+        android:backgroundTint="@color/screen_bg"
+        android:layout_margin="@dimen/_5sdp"
+        tools:context=".presentation.fragments.home.top_banner.TopBannerFragment">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <ImageView
+                android:id="@+id/top_banner_img"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:scaleType="centerCrop"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                tools:src="@tools:sample/backgrounds/scenic" />
+
+            <TextView
+                android:id="@+id/top_banner_txt"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                tools:text="This is the main scenic This is the main scenic This is the main scenic This is the main scenic"
+                android:textStyle="normal"
+                android:textColor="@color/text_trans_color"
+                android:textSize="@dimen/_16sdp"
+                android:padding="@dimen/_10sdp"
+                android:maxLines="2"
+                android:maxEms="12"
+                android:ellipsize="end"
+                app:layout_constraintBottom_toBottomOf="@+id/top_banner_img"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="@+id/top_banner_img" />
+
+            <ImageView
+                android:id="@+id/top_banner_bookmark_img"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/ic_bookmark"
+                android:layout_marginEnd="@dimen/_10sdp"
+                android:layout_marginTop="@dimen/_10sdp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/text_trans_color"
+                android:textSize="@dimen/_11sdp"
+                android:layout_marginStart="@dimen/_10sdp"
+                android:layout_marginTop="@dimen/_10sdp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                tools:text="2 hours ago" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </androidx.cardview.widget.CardView>
+</layout>
