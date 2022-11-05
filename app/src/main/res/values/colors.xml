@@ -10,4 +10,5 @@
     <color name="screen_bg">#F6F8F7</color>
     <color name="text_color">#9F9F9F</color>
     <color name="text_trans_color">#A6FFFFFF</color>
+    <color name="orange">#F7842A</color>
 </resources>
