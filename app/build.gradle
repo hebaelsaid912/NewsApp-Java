@@ -44,5 +44,9 @@ dependencies {
     // navigation implementation
     implementation "androidx.navigation:navigation-fragment:$nav_version"
     implementation "androidx.navigation:navigation-ui:$nav_version"
+    // Sd - Dp
+    implementation "com.intuit.sdp:sdp-android:$sd_dp_version"
+    //viewpager
+    implementation "androidx.viewpager2:viewpager2:$viewpagger2_version"
 
 }

@@ -10,4 +10,6 @@ task clean(type: Delete) {
 
 ext{
      nav_version = "2.5.3"
+    sd_dp_version = "1.0.6"
+    viewpagger2_version = "1.1.0-beta01"
 }
