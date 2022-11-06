@@ -12,7 +12,6 @@ import androidx.recyclerview.widget.RecyclerView;
 import androidx.viewpager2.widget.CompositePageTransformer;
 import androidx.viewpager2.widget.MarginPageTransformer;
 
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -36,6 +35,7 @@ public class HomeFragment extends Fragment implements LatestNewsAdapter.OnItemCl
     private LatestNewsAdapter.OnItemClickListener onItemClickListener;
     private MutableLiveData<NewsResponseModel> newsMutableLiveData = new MutableLiveData<>();
     private ArrayList<NewsDetailsUiModel> latestNewsUiModels = new ArrayList<>();
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -46,7 +46,7 @@ public class HomeFragment extends Fragment implements LatestNewsAdapter.OnItemCl
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        fragmentHomeBinding = FragmentHomeBinding.inflate(inflater,container,false);
+        fragmentHomeBinding = FragmentHomeBinding.inflate(inflater, container, false);
         onItemClickListener = this;
         viewModel.getTobBannerData("eg");
         viewModel.getLatestNewsData("bbc-news");
@@ -74,20 +74,20 @@ public class HomeFragment extends Fragment implements LatestNewsAdapter.OnItemCl
                     float scaleFactor = Math.max(0.85f, 1 - Math.abs(position - 0.14f));
                     page.setTranslationX(offset);
                     page.setScaleY(scaleFactor);
-                     page.setAlpha(scaleFactor);
+                    page.setAlpha(scaleFactor);
                 });
                 fragmentHomeBinding.topBannerViewPager.setPageTransformer(transformer);
-               new TabLayoutMediator(
+                new TabLayoutMediator(
                         fragmentHomeBinding.tabsDots,
                         fragmentHomeBinding.topBannerViewPager,
-                       (tab, position) -> {
+                        (tab, position) -> {
 
-                       }
+                        }
                 ).attach();
-                for(int i = 0; i< newsResponseModel.getArticles().size() ; i++){
+                for (int i = 0; i < newsResponseModel.getArticles().size(); i++) {
                     View tab = ((ViewGroup) fragmentHomeBinding.tabsDots.getChildAt(0)).getChildAt(i);
-                    ViewGroup.MarginLayoutParams p = ( ViewGroup.MarginLayoutParams)tab.getLayoutParams();
-                            p.setMargins(0,0,10,0);
+                    ViewGroup.MarginLayoutParams p = (ViewGroup.MarginLayoutParams) tab.getLayoutParams();
+                    p.setMargins(0, 0, 10, 0);
                     tab.requestLayout();
                 }
 
@@ -98,19 +98,20 @@ public class HomeFragment extends Fragment implements LatestNewsAdapter.OnItemCl
         viewModel.AllNewsMutableLiveData.observe(getViewLifecycleOwner(), new Observer<NewsResponseModel>() {
             @Override
             public void onChanged(NewsResponseModel latestNewsResponseModel) {
-                for( int i = 0 ; i< latestNewsResponseModel.getArticles().size() ; i++){
+                for (int i = 0; i < latestNewsResponseModel.getArticles().size(); i++) {
                     NewsDetailsUiModel latestNewsUiModel = new NewsDetailsUiModel();
-                        latestNewsUiModel.setName(latestNewsResponseModel.getArticles().get(i).getTitle());
-                        latestNewsUiModel.setPublishedAt(latestNewsResponseModel.getArticles().get(i).getPublishedAt());
-                        latestNewsUiModel.setUrl(latestNewsResponseModel.getArticles().get(i).getUrlToImage());
-                        latestNewsUiModel.setDescription(latestNewsResponseModel.getArticles().get(i).getDescription());
-                        latestNewsUiModels.add(latestNewsUiModel);
+                    latestNewsUiModel.setName(latestNewsResponseModel.getArticles().get(i).getTitle());
+                    latestNewsUiModel.setPublishedAt(latestNewsResponseModel.getArticles().get(i).getPublishedAt());
+                    latestNewsUiModel.setUrl(latestNewsResponseModel.getArticles().get(i).getUrlToImage());
+                    latestNewsUiModel.setDescription(latestNewsResponseModel.getArticles().get(i).getDescription());
+                    latestNewsUiModels.add(latestNewsUiModel);
                 }
                 setRecycleView();
             }
         });
     }
-    private void setRecycleView(){
+
+    private void setRecycleView() {
         LatestNewsAdapter adapter = new LatestNewsAdapter(latestNewsUiModels, onItemClickListener);
         fragmentHomeBinding.latestNewsRv.setAdapter(adapter);
     }

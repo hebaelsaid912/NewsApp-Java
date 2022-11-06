@@ -10,14 +10,12 @@ public interface NewsInterface {
 
     @GET("top-headlines")
     public Observable<NewsResponseModel> getEgyptNewsData(
-            @Query("country") String country,
-            @Query("apiKey") String key
+            @Query("country") String country
     );
 
     @GET("top-headlines")
     public Observable<NewsResponseModel> getAllNewsData(
-            @Query("sources") String source,
-            @Query("apiKey") String key
+            @Query("sources") String source
     );
 
 }

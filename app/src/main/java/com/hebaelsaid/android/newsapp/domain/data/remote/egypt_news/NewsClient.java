@@ -20,9 +20,9 @@ public class NewsClient {
         return INSTANCE;
     }
     public Observable<NewsResponseModel> getEgyptNews(String country){
-        return newsInterface.getEgyptNewsData(country,"14e5e0dc7d9049daaf1b8fa74a5838fd");
+        return newsInterface.getEgyptNewsData(country);
     }
     public Observable<NewsResponseModel> getAllNews(String source){
-        return newsInterface.getAllNewsData(source,"14e5e0dc7d9049daaf1b8fa74a5838fd");
+        return newsInterface.getAllNewsData(source);
     }
 }

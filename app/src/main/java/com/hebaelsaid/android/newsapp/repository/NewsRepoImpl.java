@@ -13,13 +13,13 @@ import io.reactivex.schedulers.Schedulers;
 public class NewsRepoImpl implements NewsInterface {
 
     @Override
-    public Observable<NewsResponseModel> getEgyptNewsData(String country, String key) {
+    public Observable<NewsResponseModel> getEgyptNewsData(String country) {
        return NewsClient.getINSTANCE().getEgyptNews(country)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread());
     }
     @Override
-    public Observable<NewsResponseModel> getAllNewsData(String source, String key) {
+    public Observable<NewsResponseModel> getAllNewsData(String source) {
         return NewsClient.getINSTANCE().getAllNews(source)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread());

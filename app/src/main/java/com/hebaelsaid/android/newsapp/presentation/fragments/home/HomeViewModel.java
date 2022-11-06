@@ -22,7 +22,7 @@ public class HomeViewModel extends ViewModel {
         this.egyptNewsRepo = egyptNewsRepo;
     }
     void getTobBannerData(String country){
-        Observable<NewsResponseModel> observable = egyptNewsRepo.getEgyptNewsData(country,"14e5e0dc7d9049daaf1b8fa74a5838fd");
+        Observable<NewsResponseModel> observable = egyptNewsRepo.getEgyptNewsData(country);
         Observer<NewsResponseModel> observer = new Observer<NewsResponseModel>() {
             @Override
             public void onSubscribe(Disposable d) {
@@ -32,11 +32,7 @@ public class HomeViewModel extends ViewModel {
             @Override
             public void onNext(NewsResponseModel egyptNewsResponseModel) {
                 if(egyptNewsResponseModel != null){
-                    Log.d(TAG, "onNext: 4");
-                    Log.d(TAG, "onNext: status: "+ egyptNewsResponseModel.getStatus());
-                        Log.d(TAG, "onNext: 5");
-                        egyptNewsMutableLiveData.setValue(egyptNewsResponseModel);
-
+                    egyptNewsMutableLiveData.setValue(egyptNewsResponseModel);
                 }else{
                     Log.i(TAG, "egyptNewsResponseModel = null  ");
                 }
@@ -55,7 +51,7 @@ public class HomeViewModel extends ViewModel {
         observable.subscribe(observer);
     }
     void getLatestNewsData(String source){
-        Observable<NewsResponseModel> observable = egyptNewsRepo.getAllNewsData(source,"14e5e0dc7d9049daaf1b8fa74a5838fd");
+        Observable<NewsResponseModel> observable = egyptNewsRepo.getAllNewsData(source);
         Observer<NewsResponseModel> observer = new Observer<NewsResponseModel>() {
             @Override
             public void onSubscribe(Disposable d) {
