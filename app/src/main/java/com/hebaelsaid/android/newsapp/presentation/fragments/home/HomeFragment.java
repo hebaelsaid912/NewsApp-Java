@@ -17,6 +17,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 
 import com.google.android.material.tabs.TabLayout;
 import com.google.android.material.tabs.TabLayoutMediator;
@@ -25,6 +26,7 @@ import com.hebaelsaid.android.newsapp.databinding.FragmentHomeBinding;
 import com.hebaelsaid.android.newsapp.domain.model.response.EgyptNewsResponseModel;
 import com.hebaelsaid.android.newsapp.domain.model.response.LatestNewsResponseModel;
 import com.hebaelsaid.android.newsapp.domain.model.ui_model.LatestNewsUiModel;
+import com.hebaelsaid.android.newsapp.domain.model.ui_model.NewsDetailsUiModel;
 import com.hebaelsaid.android.newsapp.presentation.fragments.home.latest_news.LatestNewsAdapter;
 import com.hebaelsaid.android.newsapp.presentation.fragments.home.top_banner.TopBannerAdapter;
 import com.hebaelsaid.android.newsapp.repository.EgyptNewsRepoImpl;
@@ -33,10 +35,11 @@ import com.hebaelsaid.android.newsapp.repository.LatestNewsRepoImpl;
 import java.util.ArrayList;
 
 
-public class HomeFragment extends Fragment {
+public class HomeFragment extends Fragment implements LatestNewsAdapter.OnItemClickListener {
     private final String TAG = "HomeFragment";
     private FragmentHomeBinding fragmentHomeBinding;
     private HomeViewModel viewModel;
+    LatestNewsAdapter.OnItemClickListener onItemClickListener;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -51,6 +54,7 @@ public class HomeFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         fragmentHomeBinding = FragmentHomeBinding.inflate(inflater,container,false);
+        onItemClickListener = this;
         return fragmentHomeBinding.getRoot();
     }
 
@@ -112,9 +116,14 @@ public class HomeFragment extends Fragment {
                         latestNewsUiModels.add(latestNewsUiModel);
                     }
                 }
-                LatestNewsAdapter adapter = new LatestNewsAdapter(latestNewsUiModels);
+                LatestNewsAdapter adapter = new LatestNewsAdapter(latestNewsUiModels,onItemClickListener);
                 fragmentHomeBinding.latestNewsRv.setAdapter(adapter);
             }
         });
+    }
+
+    @Override
+    public void onItemClick(View view, NewsDetailsUiModel newsDetailsUiModel) {
+        Navigation.findNavController(view).navigate(HomeFragmentDirections.actionHomeFragmentToDetailsFragment(newsDetailsUiModel));
     }
 }
