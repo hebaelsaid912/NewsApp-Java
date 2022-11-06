@@ -4,6 +4,9 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <data>
+        <variable
+            name="model"
+            type="com.hebaelsaid.android.newsapp.domain.model.ui_model.NewsDetailsUiModel" />
 
     </data>
 <androidx.core.widget.NestedScrollView
@@ -21,11 +24,23 @@
             android:layout_width="0dp"
             android:layout_height="@dimen/_200sdp"
             android:scaleType="centerCrop"
-            tools:src="@tools:sample/backgrounds/scenic"
+            app:setImageGlideUri="@{model.url.toString()}"
+            app:bindProgressItem="@{progressBar}"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toTopOf="parent"
+            tools:src="@tools:sample/backgrounds/scenic" />
 
+        <ProgressBar
+            android:id="@+id/progress_bar"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:indeterminateTint="@color/purple_500"
+            app:layout_constraintBottom_toBottomOf="@+id/news_img"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="@+id/news_img"
+            app:layout_constraintTop_toTopOf="parent" />
         <TextView
             android:id="@+id/news_details_time_txt"
             android:layout_width="wrap_content"
@@ -35,6 +50,7 @@
             android:textColor="@color/text_trans_color"
             android:textSize="@dimen/_11sdp"
             android:padding="@dimen/_5sdp"
+            app:getTimeAgo="@{model.country}"
             app:layout_constraintBottom_toBottomOf="@+id/news_img"
             app:layout_constraintStart_toStartOf="parent"
             tools:text="2 hours ago" />
@@ -73,7 +89,7 @@
 
             <TextView
                 android:id="@+id/news_title_txt"
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="@dimen/_5sdp"
                 android:background="@color/white"
@@ -81,6 +97,7 @@
                 android:textColor="@color/black"
                 android:textSize="@dimen/_20sdp"
                 android:textStyle="bold"
+                android:text="@{model.name}"
                 tools:text="This is the main scenic This is the main scenic This is the main scenic This is the main scenic" />
         </LinearLayout>
 
@@ -93,6 +110,7 @@
             android:textColor="@color/text_color"
             android:textSize="@dimen/_14sdp"
             android:textStyle="normal"
+            android:text="@{model.description}"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"

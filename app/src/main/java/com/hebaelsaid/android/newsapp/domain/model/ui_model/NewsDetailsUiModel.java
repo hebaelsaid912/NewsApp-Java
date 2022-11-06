@@ -3,11 +3,11 @@ package com.hebaelsaid.android.newsapp.domain.model.ui_model;
 import android.os.Parcel;
 import android.os.Parcelable;
 
-public class LatestNewsUiModel implements Parcelable {
+public class NewsDetailsUiModel implements Parcelable {
     private String name;
     private String url;
-    private String country;
     private String description;
+    private String country;
 
 
     public String getName() {

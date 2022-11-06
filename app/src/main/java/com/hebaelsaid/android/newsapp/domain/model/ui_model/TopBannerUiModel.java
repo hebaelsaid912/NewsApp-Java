@@ -1,6 +1,9 @@
 package com.hebaelsaid.android.newsapp.domain.model.ui_model;
 
-public class TopBannerUiModel {
+import android.os.Parcel;
+import android.os.Parcelable;
+
+public class TopBannerUiModel implements Parcelable {
     private String title;
     private String urlToImage;
     private String description;
@@ -35,5 +38,15 @@ public class TopBannerUiModel {
 
     public void setPublishedAt(String publishedAt) {
         this.publishedAt = publishedAt;
+    }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel parcel, int i) {
+
     }
 }

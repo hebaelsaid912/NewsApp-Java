@@ -14,11 +14,16 @@
             android:id="@+id/action_homeFragment_to_detailsFragment"
             app:destination="@id/detailsFragment" />
     </fragment>
+
     <fragment
         android:id="@+id/detailsFragment"
         android:name="com.hebaelsaid.android.newsapp.presentation.fragments.details.DetailsFragment"
         android:label="fragment_details"
-        tools:layout="@layout/fragment_details" />
+        tools:layout="@layout/fragment_details" >
+        <argument
+            android:name="news_data"
+            app:argType="com.hebaelsaid.android.newsapp.domain.model.ui_model.NewsDetailsUiModel" />
+    </fragment>
     <fragment
         android:id="@+id/searchFragment"
         android:name="com.hebaelsaid.android.newsapp.presentation.fragments.search.SearchFragment"

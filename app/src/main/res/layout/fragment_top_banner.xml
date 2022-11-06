@@ -7,9 +7,6 @@
         <variable
             name="model"
             type="com.hebaelsaid.android.newsapp.domain.model.ui_model.TopBannerUiModel" />
-        <variable
-            name="viewModel"
-            type="com.hebaelsaid.android.newsapp.presentation.fragments.home.top_banner.TopBannerViewModel" />
 
     </data>
 

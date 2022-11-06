@@ -7,6 +7,7 @@ import androidx.annotation.Nullable;
 import androidx.core.view.ViewCompat;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.Observer;
+import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.viewpager2.widget.CompositePageTransformer;
 import androidx.viewpager2.widget.MarginPageTransformer;
@@ -50,46 +51,19 @@ public class HomeFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         fragmentHomeBinding = FragmentHomeBinding.inflate(inflater,container,false);
-        Log.d(TAG, "onCreateView: 2");
-        viewModel.getTobBannerData("eg");
-        viewModel.getLatestNewsData();
-        Log.d(TAG, "onCreateView: 3");
         return fragmentHomeBinding.getRoot();
     }
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-
+        viewModel.getTobBannerData("eg");
+        viewModel.getLatestNewsData();
         viewModel.egyptNewsMutableLiveData.observe(getViewLifecycleOwner(), new Observer<EgyptNewsResponseModel>() {
             @Override
             public void onChanged(EgyptNewsResponseModel egyptNewsResponseModel) {
-                Log.d(TAG, "onChanged: article size: " + egyptNewsResponseModel.getArticles().size());
                 fragmentHomeBinding.topBannerViewPager.setAdapter(new TopBannerAdapter(requireActivity(),egyptNewsResponseModel.getArticles()));
-               // fragmentHomeBinding.topBannerViewPager.setPadding(100,50,100,0);
                 float pageOffset = getResources().getDimensionPixelOffset(R.dimen.offset);
-                /*fragmentHomeBinding.topBannerViewPager.setPageTransformer((page, position) -> {
-                    if (position == 0) {
-                        page.setTranslationX(-pageOffset);
-                    } else if (position <= 1) {
-                        float scaleFactor = Math.max(0.7f, 1 - Math.abs(position - 0.14285715f));
-                        page.setTranslationX(pageOffset);
-                      //  page.setTranslationX(-pageOffset);
-                        page.setScaleY(scaleFactor);
-                        page.setAlpha(scaleFactor);
-                    } else {
-                     //   page.setAlpha(0);
-                        page.setTranslationX(-pageOffset);
-                        page.setTranslationX(pageOffset);
-                    }
-                });*/
-                /*fragmentHomeBinding.topBannerViewPager.setPageTransformer((page, position) -> {
-                    float offset = position * -(2 * pageOffset + pageOffset);
-                        float scaleFactor = Math.max(0.7f, 1 - Math.abs(position - 0.14285715f));
-                        page.setTranslationX(offset);
-                        page.setScaleY(scaleFactor);
-                       // page.setAlpha(scaleFactor);
-                });*/
                 fragmentHomeBinding.topBannerViewPager.setOffscreenPageLimit(3);
                 fragmentHomeBinding.topBannerViewPager.setClipToPadding(false);
                 fragmentHomeBinding.topBannerViewPager.setClipChildren(false);
@@ -119,7 +93,10 @@ public class HomeFragment extends Fragment {
                 }
 
             }
+
         });
+
+
         viewModel.latestNewsMutableLiveData.observe(getViewLifecycleOwner(), new Observer<LatestNewsResponseModel>() {
             @Override
             public void onChanged(LatestNewsResponseModel latestNewsResponseModel) {
@@ -137,7 +114,6 @@ public class HomeFragment extends Fragment {
                 }
                 LatestNewsAdapter adapter = new LatestNewsAdapter(latestNewsUiModels);
                 fragmentHomeBinding.latestNewsRv.setAdapter(adapter);
-                Log.i(TAG, "latestNewsMutableLiveData:onChanged: sourse size: "+latestNewsResponseModel.getSources().size());
             }
         });
     }
