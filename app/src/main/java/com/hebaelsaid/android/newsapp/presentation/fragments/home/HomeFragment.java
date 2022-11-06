@@ -33,7 +33,6 @@ public class HomeFragment extends Fragment implements LatestNewsAdapter.OnItemCl
     private FragmentHomeBinding fragmentHomeBinding;
     private HomeViewModel viewModel;
     private LatestNewsAdapter.OnItemClickListener onItemClickListener;
-    private MutableLiveData<NewsResponseModel> newsMutableLiveData = new MutableLiveData<>();
     private ArrayList<NewsDetailsUiModel> latestNewsUiModels = new ArrayList<>();
 
     @Override
@@ -48,15 +47,15 @@ public class HomeFragment extends Fragment implements LatestNewsAdapter.OnItemCl
                              Bundle savedInstanceState) {
         fragmentHomeBinding = FragmentHomeBinding.inflate(inflater, container, false);
         onItemClickListener = this;
-        viewModel.getTobBannerData("eg");
-        viewModel.getLatestNewsData("bbc-news");
-        viewModel.getLatestNewsData("the-next-web");
         return fragmentHomeBinding.getRoot();
     }
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+        viewModel.getTobBannerData("eg");
+        viewModel.getLatestNewsData("bbc-news");
+        viewModel.getLatestNewsData("the-next-web");
 
         viewModel.egyptNewsMutableLiveData.observe(getViewLifecycleOwner(), new Observer<NewsResponseModel>() {
             @Override
