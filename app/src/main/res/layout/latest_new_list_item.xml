@@ -27,7 +27,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:scaleType="centerCrop"
-                app:setImageGlideUri="@{model.name}"
+                app:setImageGlideUri="@{model.url}"
                 app:bindProgressItem="@{progressBar}"
                 tools:srcCompat="@tools:sample/avatars" />
             <ProgressBar

@@ -5,6 +5,7 @@ import android.os.Bundle;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.Observer;
 import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.RecyclerView;
@@ -32,12 +33,12 @@ public class HomeFragment extends Fragment implements LatestNewsAdapter.OnItemCl
     private final String TAG = "HomeFragment";
     private FragmentHomeBinding fragmentHomeBinding;
     private HomeViewModel viewModel;
-    LatestNewsAdapter.OnItemClickListener onItemClickListener;
-
+    private LatestNewsAdapter.OnItemClickListener onItemClickListener;
+    private MutableLiveData<NewsResponseModel> newsMutableLiveData = new MutableLiveData<>();
+    private ArrayList<NewsDetailsUiModel> latestNewsUiModels = new ArrayList<>();
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        Log.d(TAG, "onCreate: 1");
         NewsRepoImpl egyptNewsRepo = new NewsRepoImpl();
         viewModel = new HomeViewModel(egyptNewsRepo);
     }
@@ -47,15 +48,16 @@ public class HomeFragment extends Fragment implements LatestNewsAdapter.OnItemCl
                              Bundle savedInstanceState) {
         fragmentHomeBinding = FragmentHomeBinding.inflate(inflater,container,false);
         onItemClickListener = this;
+        viewModel.getTobBannerData("eg");
+        viewModel.getLatestNewsData("bbc-news");
+        viewModel.getLatestNewsData("the-next-web");
         return fragmentHomeBinding.getRoot();
     }
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        viewModel.getTobBannerData("eg");
-        viewModel.getLatestNewsData("bbc-news");
-        viewModel.getLatestNewsData("the-next-web");
+
         viewModel.egyptNewsMutableLiveData.observe(getViewLifecycleOwner(), new Observer<NewsResponseModel>() {
             @Override
             public void onChanged(NewsResponseModel newsResponseModel) {
@@ -93,40 +95,24 @@ public class HomeFragment extends Fragment implements LatestNewsAdapter.OnItemCl
 
         });
 
-
-        viewModel.BBCNewsMutableLiveData.observe(getViewLifecycleOwner(), new Observer<NewsResponseModel>() {
+        viewModel.AllNewsMutableLiveData.observe(getViewLifecycleOwner(), new Observer<NewsResponseModel>() {
             @Override
             public void onChanged(NewsResponseModel latestNewsResponseModel) {
-                ArrayList<NewsDetailsUiModel> latestNewsUiModels = new ArrayList<>();
-                for (int i = 0; i < latestNewsResponseModel.getArticles().size(); i++) {
-                    NewsDetailsUiModel latestNewsUiModel = new NewsDetailsUiModel();
-                    latestNewsUiModel.setName(latestNewsResponseModel.getArticles().get(i).getTitle());
-                    latestNewsUiModel.setPublishedAt(latestNewsResponseModel.getArticles().get(i).getPublishedAt());
-                    latestNewsUiModel.setUrl(latestNewsResponseModel.getArticles().get(i).getUrlToImage());
-                    latestNewsUiModel.setDescription(latestNewsResponseModel.getArticles().get(i).getDescription());
-                    latestNewsUiModels.add(latestNewsUiModel);
-                }
-
-                LatestNewsAdapter adapter = new LatestNewsAdapter(latestNewsUiModels, onItemClickListener);
-                fragmentHomeBinding.latestNewsRv.setAdapter(adapter);
-            }
-        });
-        viewModel.TheNextWebNewsMutableLiveData.observe(getViewLifecycleOwner(), new Observer<NewsResponseModel>() {
-            @Override
-            public void onChanged(NewsResponseModel latestNewsResponseModel) {
-                ArrayList<NewsDetailsUiModel> latestNewsUiModels = new ArrayList<>();
                 for( int i = 0 ; i< latestNewsResponseModel.getArticles().size() ; i++){
                     NewsDetailsUiModel latestNewsUiModel = new NewsDetailsUiModel();
                         latestNewsUiModel.setName(latestNewsResponseModel.getArticles().get(i).getTitle());
                         latestNewsUiModel.setPublishedAt(latestNewsResponseModel.getArticles().get(i).getPublishedAt());
-                        latestNewsUiModel.setUrl(latestNewsResponseModel.getArticles().get(i).getUrl());
+                        latestNewsUiModel.setUrl(latestNewsResponseModel.getArticles().get(i).getUrlToImage());
                         latestNewsUiModel.setDescription(latestNewsResponseModel.getArticles().get(i).getDescription());
                         latestNewsUiModels.add(latestNewsUiModel);
                 }
-                LatestNewsAdapter adapter = new LatestNewsAdapter(latestNewsUiModels,onItemClickListener);
-                fragmentHomeBinding.latestNewsRv.setAdapter(adapter);
+                setRecycleView();
             }
         });
+    }
+    private void setRecycleView(){
+        LatestNewsAdapter adapter = new LatestNewsAdapter(latestNewsUiModels, onItemClickListener);
+        fragmentHomeBinding.latestNewsRv.setAdapter(adapter);
     }
 
     @Override

@@ -16,8 +16,7 @@ import io.reactivex.disposables.Disposable;
 public class HomeViewModel extends ViewModel {
     private final String TAG = "HomeViewModel";
     MutableLiveData<NewsResponseModel> egyptNewsMutableLiveData = new MutableLiveData<>();
-    MutableLiveData<NewsResponseModel> BBCNewsMutableLiveData = new MutableLiveData<>();
-    MutableLiveData<NewsResponseModel> TheNextWebNewsMutableLiveData = new MutableLiveData<>();
+    MutableLiveData<NewsResponseModel> AllNewsMutableLiveData = new MutableLiveData<>();
     private NewsRepoImpl egyptNewsRepo;
     public HomeViewModel(NewsRepoImpl egyptNewsRepo){
         this.egyptNewsRepo = egyptNewsRepo;
@@ -67,11 +66,7 @@ public class HomeViewModel extends ViewModel {
             public void onNext(NewsResponseModel latestNewsResponseModel) {
                 if(latestNewsResponseModel != null){
                     if(latestNewsResponseModel.getStatus().equals("ok")) {
-                        if(source.equals("the-next-web")) {
-                            TheNextWebNewsMutableLiveData.setValue(latestNewsResponseModel);
-                        }else {
-                            BBCNewsMutableLiveData.setValue(latestNewsResponseModel);
-                        }
+                        AllNewsMutableLiveData.setValue(latestNewsResponseModel);
                     }
                 }else{
                     Log.i(TAG, "latestNewsResponseModel = null  ");

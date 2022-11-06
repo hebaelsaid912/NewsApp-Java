@@ -55,7 +55,7 @@ public class LatestNewsAdapter extends RecyclerView.Adapter<LatestNewsAdapter.Ge
 
     class GetLatestNewsHolder extends RecyclerView.ViewHolder {
 
-        private LatestNewListItemBinding latestNewListItemBinding;
+        private final LatestNewListItemBinding latestNewListItemBinding;
 
         public GetLatestNewsHolder(@NonNull LatestNewListItemBinding latestNewListItemBinding) {
             super(latestNewListItemBinding.getRoot());
