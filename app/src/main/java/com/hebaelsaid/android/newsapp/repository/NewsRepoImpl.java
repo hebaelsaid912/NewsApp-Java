@@ -25,4 +25,10 @@ public class NewsRepoImpl implements NewsInterface {
                 .observeOn(AndroidSchedulers.mainThread());
     }
 
+    @Override
+    public Observable<NewsResponseModel> searchAllNewsData(String keyword) {
+        return NewsClient.getINSTANCE().searchAllNews(keyword)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread());
+    }
 }

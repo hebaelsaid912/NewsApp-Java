@@ -17,5 +17,9 @@ public interface NewsInterface {
     public Observable<NewsResponseModel> getAllNewsData(
             @Query("sources") String source
     );
+    @GET("top-headlines")
+    public Observable<NewsResponseModel> searchAllNewsData(
+            @Query("q") String keyword
+    );
 
 }

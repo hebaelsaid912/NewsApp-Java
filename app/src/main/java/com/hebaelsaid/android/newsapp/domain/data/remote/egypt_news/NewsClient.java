@@ -25,4 +25,7 @@ public class NewsClient {
     public Observable<NewsResponseModel> getAllNews(String source){
         return newsInterface.getAllNewsData(source);
     }
+    public Observable<NewsResponseModel> searchAllNews(String keyword){
+        return newsInterface.searchAllNewsData(keyword);
+    }
 }
