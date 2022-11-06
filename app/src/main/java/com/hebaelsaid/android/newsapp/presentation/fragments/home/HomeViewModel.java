@@ -7,7 +7,6 @@ import androidx.lifecycle.ViewModel;
 
 import com.hebaelsaid.android.newsapp.domain.model.response.EgyptNewsResponseModel;
 import com.hebaelsaid.android.newsapp.domain.model.response.LatestNewsResponseModel;
-import com.hebaelsaid.android.newsapp.domain.model.ui_model.TopBannerUiModel;
 import com.hebaelsaid.android.newsapp.repository.EgyptNewsRepoImpl;
 import com.hebaelsaid.android.newsapp.repository.LatestNewsRepoImpl;
 

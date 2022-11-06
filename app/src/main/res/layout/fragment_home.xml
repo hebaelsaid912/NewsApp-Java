@@ -31,9 +31,9 @@
             app:layout_constraintTop_toTopOf="parent" />
 
         <androidx.viewpager2.widget.ViewPager2
-            android:id="@+id/main_order_view_pager"
-            android:layout_width="0dp"
-            android:layout_height="@dimen/_180sdp"
+            android:id="@+id/top_banner_view_pager"
+            android:layout_width="wrap_content"
+            android:layout_height="@dimen/_170sdp"
             android:animateLayoutChanges="true"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -41,15 +41,22 @@
 
         <com.google.android.material.tabs.TabLayout
             android:id="@+id/tabs_dots"
-            android:layout_width="match_parent"
-            android:layout_height="@dimen/_20sdp"
+            android:layout_width="0dp"
+            android:layout_height="@dimen/_10sdp"
+            android:layout_marginTop="@dimen/_10sdp"
             android:background="@color/screen_bg"
+            app:tabMaxWidth="@dimen/_10sdp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/top_banner_view_pager"
             app:tabBackground="@drawable/unselected_dot"
             app:tabGravity="center"
-            app:tabIndicatorHeight="0dp"
-            app:layout_constraintBottom_toBottomOf="@+id/main_order_view_pager"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent" />
+            app:tabIndicator="@drawable/selected_dot"
+            app:tabIndicatorAnimationMode="linear"
+            app:tabIndicatorColor="@null"
+            app:tabIndicatorGravity="stretch"
+            app:tabMode="auto"
+            app:tabPadding="@dimen/_5sdp" />
 
         <TextView
             android:id="@+id/textView2"
@@ -65,7 +72,7 @@
             android:textStyle="bold"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/main_order_view_pager" />
+            app:layout_constraintTop_toBottomOf="@+id/tabs_dots" />
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/latest_news_rv"

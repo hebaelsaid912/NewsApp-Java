@@ -4,17 +4,22 @@ import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.core.view.ViewCompat;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.Observer;
-import androidx.lifecycle.ViewModelProvider;
-import androidx.lifecycle.ViewModelStore;
+import androidx.recyclerview.widget.RecyclerView;
+import androidx.viewpager2.widget.CompositePageTransformer;
+import androidx.viewpager2.widget.MarginPageTransformer;
+import androidx.viewpager2.widget.ViewPager2;
 
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.google.android.material.tabs.TabLayout;
 import com.google.android.material.tabs.TabLayoutMediator;
+import com.hebaelsaid.android.newsapp.R;
 import com.hebaelsaid.android.newsapp.databinding.FragmentHomeBinding;
 import com.hebaelsaid.android.newsapp.domain.model.response.EgyptNewsResponseModel;
 import com.hebaelsaid.android.newsapp.domain.model.response.LatestNewsResponseModel;
@@ -57,14 +62,58 @@ public class HomeFragment extends Fragment {
             @Override
             public void onChanged(EgyptNewsResponseModel egyptNewsResponseModel) {
                 Log.d(TAG, "onChanged: article size: " + egyptNewsResponseModel.getArticles().size());
-                fragmentHomeBinding.mainOrderViewPager.setAdapter(new TopBannerAdapter(requireActivity(),egyptNewsResponseModel.getArticles().size()));
+                fragmentHomeBinding.topBannerViewPager.setAdapter(new TopBannerAdapter(requireActivity(),egyptNewsResponseModel.getArticles().size()));
+               // fragmentHomeBinding.topBannerViewPager.setPadding(100,50,100,0);
+                float pageOffset = getResources().getDimensionPixelOffset(R.dimen.offset);
+                /*fragmentHomeBinding.topBannerViewPager.setPageTransformer((page, position) -> {
+                    if (position == 0) {
+                        page.setTranslationX(-pageOffset);
+                    } else if (position <= 1) {
+                        float scaleFactor = Math.max(0.7f, 1 - Math.abs(position - 0.14285715f));
+                        page.setTranslationX(pageOffset);
+                      //  page.setTranslationX(-pageOffset);
+                        page.setScaleY(scaleFactor);
+                        page.setAlpha(scaleFactor);
+                    } else {
+                     //   page.setAlpha(0);
+                        page.setTranslationX(-pageOffset);
+                        page.setTranslationX(pageOffset);
+                    }
+                });*/
+/*                fragmentHomeBinding.topBannerViewPager.setPageTransformer((page, position) -> {
+                    float offset = position * -(2 * pageOffset + pageOffset);
+                        float scaleFactor = Math.max(0.7f, 1 - Math.abs(position - 0.14285715f));
+                        page.setTranslationX(offset);
+                        page.setScaleY(scaleFactor);
+                       // page.setAlpha(scaleFactor);
+                });*/
+                fragmentHomeBinding.topBannerViewPager.setOffscreenPageLimit(3);
+                fragmentHomeBinding.topBannerViewPager.setClipToPadding(false);
+                fragmentHomeBinding.topBannerViewPager.setClipChildren(false);
+                fragmentHomeBinding.topBannerViewPager.getChildAt(0).setOverScrollMode(RecyclerView.OVER_SCROLL_NEVER);
+                CompositePageTransformer transformer = new CompositePageTransformer();
+                transformer.addTransformer(new MarginPageTransformer(40));
+                transformer.addTransformer((page, position) -> {
+                    float offset = position * -(2 * pageOffset + pageOffset);
+                    float scaleFactor = Math.max(0.85f, 1 - Math.abs(position - 0.14f));
+                    page.setTranslationX(offset);
+                    page.setScaleY(scaleFactor);
+                     page.setAlpha(scaleFactor);
+                });
+                fragmentHomeBinding.topBannerViewPager.setPageTransformer(transformer);
                new TabLayoutMediator(
                         fragmentHomeBinding.tabsDots,
-                        fragmentHomeBinding.mainOrderViewPager,
+                        fragmentHomeBinding.topBannerViewPager,
                        (tab, position) -> {
 
                        }
                 ).attach();
+                for( int i = 0 ; i< egyptNewsResponseModel.getArticles().size() ; i++){
+                    View tab = ((ViewGroup) fragmentHomeBinding.tabsDots.getChildAt(0)).getChildAt(i);
+                    ViewGroup.MarginLayoutParams p = ( ViewGroup.MarginLayoutParams)tab.getLayoutParams();
+                            p.setMargins(0,0,7,0);
+                    tab.requestLayout();
+                }
 
             }
         });

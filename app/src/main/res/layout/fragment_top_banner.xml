@@ -14,22 +14,23 @@
     </data>
 
     <androidx.cardview.widget.CardView
-        android:layout_width="match_parent"
+        android:layout_width="@dimen/_200sdp"
         android:layout_height="@dimen/_150sdp"
         app:cardCornerRadius="@dimen/_15sdp"
         android:backgroundTint="@color/screen_bg"
-        android:layout_margin="@dimen/_5sdp"
+        android:layout_margin="@dimen/_15sdp"
         tools:context=".presentation.fragments.home.top_banner.TopBannerFragment">
 
         <androidx.constraintlayout.widget.ConstraintLayout
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
             android:layout_height="match_parent">
 
             <ImageView
                 android:id="@+id/top_banner_img"
-                android:layout_width="match_parent"
+                android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:scaleType="centerCrop"
+                android:src="@drawable/image_placeholder"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
