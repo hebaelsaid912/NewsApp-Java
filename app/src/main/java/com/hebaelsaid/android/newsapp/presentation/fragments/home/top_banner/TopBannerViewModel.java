@@ -20,5 +20,4 @@ import io.reactivex.disposables.Disposable;
 
 public class TopBannerViewModel extends ViewModel {
 
-    
 }

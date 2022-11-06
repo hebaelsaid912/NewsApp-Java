@@ -69,7 +69,7 @@ public class HomeViewModel extends ViewModel {
             @Override
             public void onNext(LatestNewsResponseModel latestNewsResponseModel) {
                 if(latestNewsResponseModel != null){
-                    if(latestNewsResponseModel.getStatus().equals("200")) {
+                    if(latestNewsResponseModel.getStatus().equals("ok")) {
                         latestNewsMutableLiveData.setValue(latestNewsResponseModel);
                     }
                 }else{

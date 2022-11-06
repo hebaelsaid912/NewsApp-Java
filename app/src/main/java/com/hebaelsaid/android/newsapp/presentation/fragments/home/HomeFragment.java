@@ -23,10 +23,13 @@ import com.hebaelsaid.android.newsapp.R;
 import com.hebaelsaid.android.newsapp.databinding.FragmentHomeBinding;
 import com.hebaelsaid.android.newsapp.domain.model.response.EgyptNewsResponseModel;
 import com.hebaelsaid.android.newsapp.domain.model.response.LatestNewsResponseModel;
+import com.hebaelsaid.android.newsapp.domain.model.ui_model.LatestNewsUiModel;
+import com.hebaelsaid.android.newsapp.presentation.fragments.home.latest_news.LatestNewsAdapter;
 import com.hebaelsaid.android.newsapp.presentation.fragments.home.top_banner.TopBannerAdapter;
 import com.hebaelsaid.android.newsapp.repository.EgyptNewsRepoImpl;
 import com.hebaelsaid.android.newsapp.repository.LatestNewsRepoImpl;
 
+import java.util.ArrayList;
 
 
 public class HomeFragment extends Fragment {
@@ -120,9 +123,19 @@ public class HomeFragment extends Fragment {
         viewModel.latestNewsMutableLiveData.observe(getViewLifecycleOwner(), new Observer<LatestNewsResponseModel>() {
             @Override
             public void onChanged(LatestNewsResponseModel latestNewsResponseModel) {
-                /*for( int i = 0 ; i< latestNewsResponseModel.getSources().size() ; i++){
-
-                }*/
+                ArrayList<LatestNewsUiModel> latestNewsUiModels = new ArrayList<>();
+                for( int i = 0 ; i< latestNewsResponseModel.getSources().size() ; i++){
+                    if(latestNewsResponseModel.getSources().get(i).getId().equals("the-next-web")
+                    || latestNewsResponseModel.getSources().get(i).getId().equals("bbc-news")) {
+                        LatestNewsUiModel latestNewsUiModel = new LatestNewsUiModel();
+                        latestNewsUiModel.setName(latestNewsResponseModel.getSources().get(i).getName());
+                        latestNewsUiModel.setCountry(latestNewsResponseModel.getSources().get(i).getCountry());
+                        latestNewsUiModel.setUrl(latestNewsResponseModel.getSources().get(i).getUrl());
+                        latestNewsUiModels.add(latestNewsUiModel);
+                    }
+                }
+                LatestNewsAdapter adapter = new LatestNewsAdapter(latestNewsUiModels);
+                fragmentHomeBinding.latestNewsRv.setAdapter(adapter);
                 Log.i(TAG, "latestNewsMutableLiveData:onChanged: sourse size: "+latestNewsResponseModel.getSources().size());
             }
         });

@@ -4,7 +4,9 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <data>
-
+        <variable
+            name="model"
+            type="com.hebaelsaid.android.newsapp.domain.model.ui_model.LatestNewsUiModel" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -25,7 +27,19 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:scaleType="centerCrop"
+                app:setImageGlideUri="@{model.name}"
+                app:bindProgressItem="@{progressBar}"
                 tools:srcCompat="@tools:sample/avatars" />
+            <ProgressBar
+                android:id="@+id/progress_bar"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:indeterminateTint="@color/purple_500"
+                android:layout_gravity="center"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"/>
         </androidx.cardview.widget.CardView>
 
         <LinearLayout
@@ -38,7 +52,8 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent">
+            app:layout_constraintTop_toTopOf="parent"
+            android:orientation="horizontal">
 
         </LinearLayout>
 
@@ -53,6 +68,7 @@
             android:textColor="@color/text_color"
             android:textSize="@dimen/_14sdp"
             android:textStyle="bold"
+            android:text="@{model.name}"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@+id/latest_news_card_view"
             app:layout_constraintTop_toTopOf="@+id/linearLayout"
@@ -66,6 +82,7 @@
             android:paddingEnd="@dimen/_10sdp"
             android:textColor="@color/text_color"
             android:textSize="@dimen/_11sdp"
+            android:text="@{model.country}"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toEndOf="@+id/latest_news_card_view"
             app:layout_constraintTop_toBottomOf="@+id/latest_news_txt"
