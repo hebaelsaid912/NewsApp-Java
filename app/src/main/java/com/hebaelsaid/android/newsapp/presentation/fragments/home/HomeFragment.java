@@ -62,7 +62,7 @@ public class HomeFragment extends Fragment {
             @Override
             public void onChanged(EgyptNewsResponseModel egyptNewsResponseModel) {
                 Log.d(TAG, "onChanged: article size: " + egyptNewsResponseModel.getArticles().size());
-                fragmentHomeBinding.topBannerViewPager.setAdapter(new TopBannerAdapter(requireActivity(),egyptNewsResponseModel.getArticles().size()));
+                fragmentHomeBinding.topBannerViewPager.setAdapter(new TopBannerAdapter(requireActivity(),egyptNewsResponseModel.getArticles()));
                // fragmentHomeBinding.topBannerViewPager.setPadding(100,50,100,0);
                 float pageOffset = getResources().getDimensionPixelOffset(R.dimen.offset);
                 /*fragmentHomeBinding.topBannerViewPager.setPageTransformer((page, position) -> {
@@ -80,7 +80,7 @@ public class HomeFragment extends Fragment {
                         page.setTranslationX(pageOffset);
                     }
                 });*/
-/*                fragmentHomeBinding.topBannerViewPager.setPageTransformer((page, position) -> {
+                /*fragmentHomeBinding.topBannerViewPager.setPageTransformer((page, position) -> {
                     float offset = position * -(2 * pageOffset + pageOffset);
                         float scaleFactor = Math.max(0.7f, 1 - Math.abs(position - 0.14285715f));
                         page.setTranslationX(offset);

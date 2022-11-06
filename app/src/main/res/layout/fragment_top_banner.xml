@@ -30,13 +30,23 @@
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:scaleType="centerCrop"
-                android:src="@drawable/image_placeholder"
+                app:setImageGlideUri="@{model.urlToImage.toString()}"
+                app:bindProgressItem="@{progressBar}"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
                 tools:src="@tools:sample/backgrounds/scenic" />
-
+            <ProgressBar
+                android:id="@+id/progress_bar"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:indeterminateTint="@color/purple_500"
+                android:layout_gravity="center"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"/>
             <TextView
                 android:id="@+id/top_banner_txt"
                 android:layout_width="match_parent"
@@ -72,6 +82,7 @@
                 android:textSize="@dimen/_11sdp"
                 android:layout_marginStart="@dimen/_10sdp"
                 android:layout_marginTop="@dimen/_10sdp"
+                app:getTimeAgo="@{model.publishedAt}"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
                 tools:text="2 hours ago" />

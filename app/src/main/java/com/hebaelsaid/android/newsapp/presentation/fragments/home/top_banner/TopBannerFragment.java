@@ -15,12 +15,14 @@ import android.view.ViewGroup;
 import com.hebaelsaid.android.newsapp.R;
 import com.hebaelsaid.android.newsapp.databinding.FragmentTopBannerBinding;
 import com.hebaelsaid.android.newsapp.domain.model.response.EgyptNewsResponseModel;
+import com.hebaelsaid.android.newsapp.domain.model.ui_model.TopBannerUiModel;
 
 public class TopBannerFragment extends Fragment {
     private FragmentTopBannerBinding fragmentTopBannerBinding;
     private TopBannerViewModel topBannerViewModel;
-    public TopBannerFragment() {
-        // Required empty public constructor
+    private TopBannerUiModel topBannerUiModel;
+    public TopBannerFragment(TopBannerUiModel topBannerUiModel) {
+        this.topBannerUiModel = topBannerUiModel;
     }
 
 
@@ -34,6 +36,7 @@ public class TopBannerFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         fragmentTopBannerBinding = FragmentTopBannerBinding.inflate(inflater,container,false);
+        fragmentTopBannerBinding.setModel(topBannerUiModel);
         fragmentTopBannerBinding.setViewModel(topBannerViewModel);
         return fragmentTopBannerBinding.getRoot();
     }
