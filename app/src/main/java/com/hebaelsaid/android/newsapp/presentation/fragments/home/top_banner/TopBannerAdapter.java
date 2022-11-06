@@ -26,6 +26,7 @@ public class TopBannerAdapter extends FragmentStateAdapter {
         model.setTitle(articlesBeanList.get(position).getTitle());
         model.setPublishedAt(articlesBeanList.get(position).getPublishedAt());
         model.setUrlToImage(articlesBeanList.get(position).getUrlToImage());
+        model.setDescription(articlesBeanList.get(position).getDescription());
         return new TopBannerFragment(model);
     }
 

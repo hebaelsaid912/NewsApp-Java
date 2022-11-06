@@ -1,4 +1,4 @@
-package com.hebaelsaid.android.newsapp.presentation.fragments.home.details;
+package com.hebaelsaid.android.newsapp.presentation.fragments.details;
 
 import android.os.Bundle;
 

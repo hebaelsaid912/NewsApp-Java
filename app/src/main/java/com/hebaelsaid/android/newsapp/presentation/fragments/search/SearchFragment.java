@@ -1,4 +1,4 @@
-package com.hebaelsaid.android.newsapp.presentation.fragments.home.search;
+package com.hebaelsaid.android.newsapp.presentation.fragments.search;
 
 import android.os.Bundle;
 

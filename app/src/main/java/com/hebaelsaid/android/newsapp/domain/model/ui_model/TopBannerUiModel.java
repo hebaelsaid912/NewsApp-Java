@@ -3,6 +3,7 @@ package com.hebaelsaid.android.newsapp.domain.model.ui_model;
 public class TopBannerUiModel {
     private String title;
     private String urlToImage;
+    private String description;
     private String publishedAt;
 
     public String getTitle() {
@@ -18,6 +19,14 @@ public class TopBannerUiModel {
 
     public void setUrlToImage(String urlToImage) {
         this.urlToImage = urlToImage;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
     }
 
     public String getPublishedAt() {

@@ -114,7 +114,7 @@ public class HomeFragment extends Fragment {
                 for( int i = 0 ; i< egyptNewsResponseModel.getArticles().size() ; i++){
                     View tab = ((ViewGroup) fragmentHomeBinding.tabsDots.getChildAt(0)).getChildAt(i);
                     ViewGroup.MarginLayoutParams p = ( ViewGroup.MarginLayoutParams)tab.getLayoutParams();
-                            p.setMargins(0,0,7,0);
+                            p.setMargins(0,0,10,0);
                     tab.requestLayout();
                 }
 
@@ -131,6 +131,7 @@ public class HomeFragment extends Fragment {
                         latestNewsUiModel.setName(latestNewsResponseModel.getSources().get(i).getName());
                         latestNewsUiModel.setCountry(latestNewsResponseModel.getSources().get(i).getCountry());
                         latestNewsUiModel.setUrl(latestNewsResponseModel.getSources().get(i).getUrl());
+                        latestNewsUiModel.setDescription(latestNewsResponseModel.getSources().get(i).getDescription());
                         latestNewsUiModels.add(latestNewsUiModel);
                     }
                 }
