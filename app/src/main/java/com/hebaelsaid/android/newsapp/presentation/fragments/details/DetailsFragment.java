@@ -12,7 +12,6 @@ import android.view.ViewGroup;
 
 import com.hebaelsaid.android.newsapp.R;
 import com.hebaelsaid.android.newsapp.databinding.FragmentDetailsBinding;
-import com.hebaelsaid.android.newsapp.databinding.FragmentDetailsBindingImpl;
 import com.hebaelsaid.android.newsapp.domain.model.ui_model.NewsDetailsUiModel;
 
 

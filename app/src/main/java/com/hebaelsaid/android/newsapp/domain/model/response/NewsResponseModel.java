@@ -2,7 +2,7 @@ package com.hebaelsaid.android.newsapp.domain.model.response;
 
 import java.util.List;
 
-public class EgyptNewsResponseModel {
+public class NewsResponseModel {
 
     private String status;
     private int totalResults;
@@ -108,10 +108,7 @@ public class EgyptNewsResponseModel {
         }
 
         public static class SourceBean {
-            /**
-             * id : null
-             * name : Yallakora.com
-             */
+
 
             private String id;
             private String name;

@@ -4,33 +4,26 @@ import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.core.view.ViewCompat;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.Observer;
 import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.viewpager2.widget.CompositePageTransformer;
 import androidx.viewpager2.widget.MarginPageTransformer;
-import androidx.viewpager2.widget.ViewPager2;
 
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
 
-import com.google.android.material.tabs.TabLayout;
 import com.google.android.material.tabs.TabLayoutMediator;
 import com.hebaelsaid.android.newsapp.R;
 import com.hebaelsaid.android.newsapp.databinding.FragmentHomeBinding;
-import com.hebaelsaid.android.newsapp.domain.model.response.EgyptNewsResponseModel;
-import com.hebaelsaid.android.newsapp.domain.model.response.LatestNewsResponseModel;
-import com.hebaelsaid.android.newsapp.domain.model.ui_model.LatestNewsUiModel;
+import com.hebaelsaid.android.newsapp.domain.model.response.NewsResponseModel;
 import com.hebaelsaid.android.newsapp.domain.model.ui_model.NewsDetailsUiModel;
 import com.hebaelsaid.android.newsapp.presentation.fragments.home.latest_news.LatestNewsAdapter;
 import com.hebaelsaid.android.newsapp.presentation.fragments.home.top_banner.TopBannerAdapter;
-import com.hebaelsaid.android.newsapp.repository.EgyptNewsRepoImpl;
-import com.hebaelsaid.android.newsapp.repository.LatestNewsRepoImpl;
+import com.hebaelsaid.android.newsapp.repository.NewsRepoImpl;
 
 import java.util.ArrayList;
 
@@ -45,9 +38,8 @@ public class HomeFragment extends Fragment implements LatestNewsAdapter.OnItemCl
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         Log.d(TAG, "onCreate: 1");
-        EgyptNewsRepoImpl egyptNewsRepo = new EgyptNewsRepoImpl();
-        LatestNewsRepoImpl latestNewsRepo = new LatestNewsRepoImpl();
-        viewModel = new HomeViewModel(egyptNewsRepo,latestNewsRepo);
+        NewsRepoImpl egyptNewsRepo = new NewsRepoImpl();
+        viewModel = new HomeViewModel(egyptNewsRepo);
     }
 
     @Override
@@ -62,11 +54,12 @@ public class HomeFragment extends Fragment implements LatestNewsAdapter.OnItemCl
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         viewModel.getTobBannerData("eg");
-        viewModel.getLatestNewsData();
-        viewModel.egyptNewsMutableLiveData.observe(getViewLifecycleOwner(), new Observer<EgyptNewsResponseModel>() {
+        viewModel.getLatestNewsData("bbc-news");
+        viewModel.getLatestNewsData("the-next-web");
+        viewModel.egyptNewsMutableLiveData.observe(getViewLifecycleOwner(), new Observer<NewsResponseModel>() {
             @Override
-            public void onChanged(EgyptNewsResponseModel egyptNewsResponseModel) {
-                fragmentHomeBinding.topBannerViewPager.setAdapter(new TopBannerAdapter(requireActivity(),egyptNewsResponseModel.getArticles()));
+            public void onChanged(NewsResponseModel newsResponseModel) {
+                fragmentHomeBinding.topBannerViewPager.setAdapter(new TopBannerAdapter(requireActivity(), newsResponseModel.getArticles()));
                 float pageOffset = getResources().getDimensionPixelOffset(R.dimen.offset);
                 fragmentHomeBinding.topBannerViewPager.setOffscreenPageLimit(3);
                 fragmentHomeBinding.topBannerViewPager.setClipToPadding(false);
@@ -89,7 +82,7 @@ public class HomeFragment extends Fragment implements LatestNewsAdapter.OnItemCl
 
                        }
                 ).attach();
-                for( int i = 0 ; i< egyptNewsResponseModel.getArticles().size() ; i++){
+                for(int i = 0; i< newsResponseModel.getArticles().size() ; i++){
                     View tab = ((ViewGroup) fragmentHomeBinding.tabsDots.getChildAt(0)).getChildAt(i);
                     ViewGroup.MarginLayoutParams p = ( ViewGroup.MarginLayoutParams)tab.getLayoutParams();
                             p.setMargins(0,0,10,0);
@@ -101,20 +94,34 @@ public class HomeFragment extends Fragment implements LatestNewsAdapter.OnItemCl
         });
 
 
-        viewModel.latestNewsMutableLiveData.observe(getViewLifecycleOwner(), new Observer<LatestNewsResponseModel>() {
+        viewModel.BBCNewsMutableLiveData.observe(getViewLifecycleOwner(), new Observer<NewsResponseModel>() {
             @Override
-            public void onChanged(LatestNewsResponseModel latestNewsResponseModel) {
-                ArrayList<LatestNewsUiModel> latestNewsUiModels = new ArrayList<>();
-                for( int i = 0 ; i< latestNewsResponseModel.getSources().size() ; i++){
-                    if(latestNewsResponseModel.getSources().get(i).getId().equals("the-next-web")
-                    || latestNewsResponseModel.getSources().get(i).getId().equals("bbc-news")) {
-                        LatestNewsUiModel latestNewsUiModel = new LatestNewsUiModel();
-                        latestNewsUiModel.setName(latestNewsResponseModel.getSources().get(i).getName());
-                        latestNewsUiModel.setCountry(latestNewsResponseModel.getSources().get(i).getCountry());
-                        latestNewsUiModel.setUrl(latestNewsResponseModel.getSources().get(i).getUrl());
-                        latestNewsUiModel.setDescription(latestNewsResponseModel.getSources().get(i).getDescription());
+            public void onChanged(NewsResponseModel latestNewsResponseModel) {
+                ArrayList<NewsDetailsUiModel> latestNewsUiModels = new ArrayList<>();
+                for (int i = 0; i < latestNewsResponseModel.getArticles().size(); i++) {
+                    NewsDetailsUiModel latestNewsUiModel = new NewsDetailsUiModel();
+                    latestNewsUiModel.setName(latestNewsResponseModel.getArticles().get(i).getTitle());
+                    latestNewsUiModel.setPublishedAt(latestNewsResponseModel.getArticles().get(i).getPublishedAt());
+                    latestNewsUiModel.setUrl(latestNewsResponseModel.getArticles().get(i).getUrlToImage());
+                    latestNewsUiModel.setDescription(latestNewsResponseModel.getArticles().get(i).getDescription());
+                    latestNewsUiModels.add(latestNewsUiModel);
+                }
+
+                LatestNewsAdapter adapter = new LatestNewsAdapter(latestNewsUiModels, onItemClickListener);
+                fragmentHomeBinding.latestNewsRv.setAdapter(adapter);
+            }
+        });
+        viewModel.TheNextWebNewsMutableLiveData.observe(getViewLifecycleOwner(), new Observer<NewsResponseModel>() {
+            @Override
+            public void onChanged(NewsResponseModel latestNewsResponseModel) {
+                ArrayList<NewsDetailsUiModel> latestNewsUiModels = new ArrayList<>();
+                for( int i = 0 ; i< latestNewsResponseModel.getArticles().size() ; i++){
+                    NewsDetailsUiModel latestNewsUiModel = new NewsDetailsUiModel();
+                        latestNewsUiModel.setName(latestNewsResponseModel.getArticles().get(i).getTitle());
+                        latestNewsUiModel.setPublishedAt(latestNewsResponseModel.getArticles().get(i).getPublishedAt());
+                        latestNewsUiModel.setUrl(latestNewsResponseModel.getArticles().get(i).getUrl());
+                        latestNewsUiModel.setDescription(latestNewsResponseModel.getArticles().get(i).getDescription());
                         latestNewsUiModels.add(latestNewsUiModel);
-                    }
                 }
                 LatestNewsAdapter adapter = new LatestNewsAdapter(latestNewsUiModels,onItemClickListener);
                 fragmentHomeBinding.latestNewsRv.setAdapter(adapter);

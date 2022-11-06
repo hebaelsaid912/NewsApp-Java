@@ -5,10 +5,8 @@ import android.util.Log;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
-import com.hebaelsaid.android.newsapp.domain.model.response.EgyptNewsResponseModel;
-import com.hebaelsaid.android.newsapp.domain.model.response.LatestNewsResponseModel;
-import com.hebaelsaid.android.newsapp.repository.EgyptNewsRepoImpl;
-import com.hebaelsaid.android.newsapp.repository.LatestNewsRepoImpl;
+import com.hebaelsaid.android.newsapp.domain.model.response.NewsResponseModel;
+import com.hebaelsaid.android.newsapp.repository.NewsRepoImpl;
 
 
 import io.reactivex.Observable;
@@ -17,24 +15,23 @@ import io.reactivex.disposables.Disposable;
 
 public class HomeViewModel extends ViewModel {
     private final String TAG = "HomeViewModel";
-    MutableLiveData<EgyptNewsResponseModel> egyptNewsMutableLiveData = new MutableLiveData<>();
-    MutableLiveData<LatestNewsResponseModel> latestNewsMutableLiveData = new MutableLiveData<>();
-    private EgyptNewsRepoImpl egyptNewsRepo;
-    private LatestNewsRepoImpl latestNewsRepo;
-    public HomeViewModel(EgyptNewsRepoImpl egyptNewsRepo , LatestNewsRepoImpl latestNewsRepo){
+    MutableLiveData<NewsResponseModel> egyptNewsMutableLiveData = new MutableLiveData<>();
+    MutableLiveData<NewsResponseModel> BBCNewsMutableLiveData = new MutableLiveData<>();
+    MutableLiveData<NewsResponseModel> TheNextWebNewsMutableLiveData = new MutableLiveData<>();
+    private NewsRepoImpl egyptNewsRepo;
+    public HomeViewModel(NewsRepoImpl egyptNewsRepo){
         this.egyptNewsRepo = egyptNewsRepo;
-        this.latestNewsRepo = latestNewsRepo;
     }
     void getTobBannerData(String country){
-        Observable<EgyptNewsResponseModel> observable = egyptNewsRepo.getEgyptNewsData(country,"14e5e0dc7d9049daaf1b8fa74a5838fd");
-        Observer<EgyptNewsResponseModel> observer = new Observer<EgyptNewsResponseModel>() {
+        Observable<NewsResponseModel> observable = egyptNewsRepo.getEgyptNewsData(country,"14e5e0dc7d9049daaf1b8fa74a5838fd");
+        Observer<NewsResponseModel> observer = new Observer<NewsResponseModel>() {
             @Override
             public void onSubscribe(Disposable d) {
 
             }
 
             @Override
-            public void onNext(EgyptNewsResponseModel egyptNewsResponseModel) {
+            public void onNext(NewsResponseModel egyptNewsResponseModel) {
                 if(egyptNewsResponseModel != null){
                     Log.d(TAG, "onNext: 4");
                     Log.d(TAG, "onNext: status: "+ egyptNewsResponseModel.getStatus());
@@ -58,19 +55,23 @@ public class HomeViewModel extends ViewModel {
         };
         observable.subscribe(observer);
     }
-    void getLatestNewsData(){
-        Observable<LatestNewsResponseModel> observable = latestNewsRepo.getAllNewsData("14e5e0dc7d9049daaf1b8fa74a5838fd");
-        Observer<LatestNewsResponseModel> observer = new Observer<LatestNewsResponseModel>() {
+    void getLatestNewsData(String source){
+        Observable<NewsResponseModel> observable = egyptNewsRepo.getAllNewsData(source,"14e5e0dc7d9049daaf1b8fa74a5838fd");
+        Observer<NewsResponseModel> observer = new Observer<NewsResponseModel>() {
             @Override
             public void onSubscribe(Disposable d) {
 
             }
 
             @Override
-            public void onNext(LatestNewsResponseModel latestNewsResponseModel) {
+            public void onNext(NewsResponseModel latestNewsResponseModel) {
                 if(latestNewsResponseModel != null){
                     if(latestNewsResponseModel.getStatus().equals("ok")) {
-                        latestNewsMutableLiveData.setValue(latestNewsResponseModel);
+                        if(source.equals("the-next-web")) {
+                            TheNextWebNewsMutableLiveData.setValue(latestNewsResponseModel);
+                        }else {
+                            BBCNewsMutableLiveData.setValue(latestNewsResponseModel);
+                        }
                     }
                 }else{
                     Log.i(TAG, "latestNewsResponseModel = null  ");

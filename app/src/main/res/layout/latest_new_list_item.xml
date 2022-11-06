@@ -6,7 +6,7 @@
     <data>
         <variable
             name="model"
-            type="com.hebaelsaid.android.newsapp.domain.model.ui_model.LatestNewsUiModel" />
+            type="com.hebaelsaid.android.newsapp.domain.model.ui_model.NewsDetailsUiModel" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -82,7 +82,7 @@
             android:paddingEnd="@dimen/_10sdp"
             android:textColor="@color/text_color"
             android:textSize="@dimen/_11sdp"
-            android:text="@{model.country}"
+            app:getTimeAgo="@{model.publishedAt}"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toEndOf="@+id/latest_news_card_view"
             app:layout_constraintTop_toBottomOf="@+id/latest_news_txt"

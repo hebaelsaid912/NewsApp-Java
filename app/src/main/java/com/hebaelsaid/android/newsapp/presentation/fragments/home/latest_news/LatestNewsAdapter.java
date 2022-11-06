@@ -8,22 +8,18 @@ import android.view.ViewGroup;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.bumptech.glide.Glide;
 import com.hebaelsaid.android.newsapp.databinding.LatestNewListItemBinding;
-import com.hebaelsaid.android.newsapp.domain.model.ui_model.LatestNewsUiModel;
 import com.hebaelsaid.android.newsapp.domain.model.ui_model.NewsDetailsUiModel;
-
-import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
 
 public class LatestNewsAdapter extends RecyclerView.Adapter<LatestNewsAdapter.GetLatestNewsHolder> {
 
-    private ArrayList<LatestNewsUiModel> data;
+    private ArrayList<NewsDetailsUiModel> data;
     private Context context;
     private OnItemClickListener onItemClickListener;
 
-    public LatestNewsAdapter(ArrayList<LatestNewsUiModel> data,OnItemClickListener onItemClickListener) {
+    public LatestNewsAdapter(ArrayList<NewsDetailsUiModel> data,OnItemClickListener onItemClickListener) {
         this.data = data;
         this.onItemClickListener = onItemClickListener;
     }
@@ -45,7 +41,7 @@ public class LatestNewsAdapter extends RecyclerView.Adapter<LatestNewsAdapter.Ge
                 NewsDetailsUiModel newsDetailsUiModel = new NewsDetailsUiModel();
                 newsDetailsUiModel.setName(data.get(position).getName());
                 newsDetailsUiModel.setDescription(data.get(position).getDescription());
-                newsDetailsUiModel.setCountry(data.get(position).getCountry());
+                newsDetailsUiModel.setPublishedAt(data.get(position).getPublishedAt());
                 newsDetailsUiModel.setUrl(data.get(position).getUrl());
                 onItemClickListener.onItemClick(view,newsDetailsUiModel);
             }
@@ -67,7 +63,7 @@ public class LatestNewsAdapter extends RecyclerView.Adapter<LatestNewsAdapter.Ge
 
         }
 
-        void bind(LatestNewsUiModel latestNewsUiModel) {
+        void bind(NewsDetailsUiModel latestNewsUiModel) {
             latestNewListItemBinding.setModel(latestNewsUiModel);
         }
 

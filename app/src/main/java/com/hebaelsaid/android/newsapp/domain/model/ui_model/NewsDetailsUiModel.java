@@ -7,8 +7,7 @@ public class NewsDetailsUiModel implements Parcelable {
     private String name;
     private String url;
     private String description;
-    private String country;
-
+    private String publishedAt;
 
     public String getName() {
         return name;
@@ -26,13 +25,14 @@ public class NewsDetailsUiModel implements Parcelable {
         this.url = url;
     }
 
-    public String getCountry() {
-        return country;
+    public String getPublishedAt() {
+        return publishedAt;
     }
 
-    public void setCountry(String country) {
-        this.country = country;
+    public void setPublishedAt(String publishedAt) {
+        this.publishedAt = publishedAt;
     }
+
     public String getDescription() {
         return description;
     }

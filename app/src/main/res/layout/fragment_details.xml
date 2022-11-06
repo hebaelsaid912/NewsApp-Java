@@ -50,7 +50,7 @@
             android:textColor="@color/text_trans_color"
             android:textSize="@dimen/_11sdp"
             android:padding="@dimen/_5sdp"
-            android:text="@{model.country}"
+            app:getTimeAgo="@{model.publishedAt}"
             app:layout_constraintBottom_toBottomOf="@+id/news_img"
             app:layout_constraintStart_toStartOf="parent"
             tools:text="2 hours ago" />

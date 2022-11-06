@@ -5,26 +5,21 @@ import android.os.Bundle;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
-import androidx.lifecycle.Observer;
-import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.Navigation;
 
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.hebaelsaid.android.newsapp.R;
 import com.hebaelsaid.android.newsapp.databinding.FragmentTopBannerBinding;
-import com.hebaelsaid.android.newsapp.domain.model.response.EgyptNewsResponseModel;
 import com.hebaelsaid.android.newsapp.domain.model.ui_model.NewsDetailsUiModel;
-import com.hebaelsaid.android.newsapp.domain.model.ui_model.TopBannerUiModel;
 import com.hebaelsaid.android.newsapp.presentation.fragments.home.HomeFragmentDirections;
 
 public class TopBannerFragment extends Fragment {
     private FragmentTopBannerBinding fragmentTopBannerBinding;
-    private TopBannerUiModel topBannerUiModel;
+    private NewsDetailsUiModel topBannerUiModel;
 
-    public TopBannerFragment(TopBannerUiModel topBannerUiModel) {
+    public TopBannerFragment(NewsDetailsUiModel topBannerUiModel) {
         this.topBannerUiModel = topBannerUiModel;
     }
 
@@ -49,10 +44,10 @@ public class TopBannerFragment extends Fragment {
             @Override
             public void onClick(View view) {
                 NewsDetailsUiModel newsDetailsUiModel = new NewsDetailsUiModel();
-                newsDetailsUiModel.setName(topBannerUiModel.getTitle());
+                newsDetailsUiModel.setName(topBannerUiModel.getName());
                 newsDetailsUiModel.setDescription(topBannerUiModel.getDescription());
-                newsDetailsUiModel.setUrl(topBannerUiModel.getUrlToImage());
-                newsDetailsUiModel.setCountry(topBannerUiModel.getPublishedAt());
+                newsDetailsUiModel.setUrl(topBannerUiModel.getUrl());
+                newsDetailsUiModel.setPublishedAt(topBannerUiModel.getPublishedAt());
                 Navigation.findNavController(view).navigate(HomeFragmentDirections.actionHomeFragmentToDetailsFragment(newsDetailsUiModel));
             }
         });

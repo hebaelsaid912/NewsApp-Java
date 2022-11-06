@@ -6,7 +6,7 @@
     <data>
         <variable
             name="model"
-            type="com.hebaelsaid.android.newsapp.domain.model.ui_model.TopBannerUiModel" />
+            type="com.hebaelsaid.android.newsapp.domain.model.ui_model.NewsDetailsUiModel" />
 
     </data>
 
@@ -27,7 +27,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:scaleType="centerCrop"
-                app:setImageGlideUri="@{model.urlToImage.toString()}"
+                app:setImageGlideUri="@{model.url.toString()}"
                 app:bindProgressItem="@{progressBar}"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
@@ -56,7 +56,7 @@
                 android:maxLines="2"
                 android:maxEms="12"
                 android:ellipsize="end"
-                android:text="@{model.title}"
+                android:text="@{model.name}"
                 app:layout_constraintBottom_toBottomOf="@+id/top_banner_img"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="@+id/top_banner_img" />
