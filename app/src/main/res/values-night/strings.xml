@@ -4,4 +4,6 @@
     <string name="latest_news">latest news</string>
     <string name="home">Home</string>
     <string name="search">Search</string>
+    <string name="please_click_on_search_icon_to_search_for_news">Please click on search icon to search for news</string>
+    <string name="there_is_no_news_appear">There is no news appear</string>
 </resources>

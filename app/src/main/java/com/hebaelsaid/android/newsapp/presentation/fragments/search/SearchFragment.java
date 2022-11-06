@@ -78,10 +78,17 @@ public class SearchFragment extends Fragment implements LatestNewsAdapter.OnItem
                     latestNewsUiModel.setUrl(newsResponseModel.getArticles().get(i).getUrlToImage());
                     latestNewsUiModel.setDescription(newsResponseModel.getArticles().get(i).getDescription());
                     latestNewsUiModels.add(latestNewsUiModel);
+                }if(latestNewsUiModels.isEmpty()){
+                    fragmentSearchBinding.newsSearchDataRv.setVisibility(View.GONE);
+                    fragmentSearchBinding.emptySubtitleText.setVisibility(View.VISIBLE);
+                }else {
+                    LatestNewsAdapter adapter = new LatestNewsAdapter(latestNewsUiModels, onItemClickListener);
+                    fragmentSearchBinding.newsSearchDataRv.setAdapter(adapter);
+                    fragmentSearchBinding.newsSearchDataRv.setVisibility(View.VISIBLE);
+                    fragmentSearchBinding.emptySubtitleText.setVisibility(View.GONE);
+                    adapter.notifyDataSetChanged();
                 }
-                LatestNewsAdapter adapter = new LatestNewsAdapter(latestNewsUiModels, onItemClickListener);
-                fragmentSearchBinding.newsSearchDataRv.setAdapter(adapter);
-                adapter.notifyDataSetChanged();
+
             }
         });
 
