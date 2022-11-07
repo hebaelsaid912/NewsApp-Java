@@ -54,7 +54,6 @@ public class SearchFragment extends Fragment implements LatestNewsAdapter.OnItem
                     searchViewModel.getLatestNewsData(s);
                     return true;
                 }
-
                 return false;
             }
 
@@ -80,12 +79,12 @@ public class SearchFragment extends Fragment implements LatestNewsAdapter.OnItem
                     latestNewsUiModels.add(latestNewsUiModel);
                 }if(latestNewsUiModels.isEmpty()){
                     fragmentSearchBinding.newsSearchDataRv.setVisibility(View.GONE);
-                    fragmentSearchBinding.emptySubtitleText.setVisibility(View.VISIBLE);
+                    fragmentSearchBinding.mainEmptyView.setVisibility(View.VISIBLE);
                 }else {
                     LatestNewsAdapter adapter = new LatestNewsAdapter(latestNewsUiModels, onItemClickListener);
                     fragmentSearchBinding.newsSearchDataRv.setAdapter(adapter);
                     fragmentSearchBinding.newsSearchDataRv.setVisibility(View.VISIBLE);
-                    fragmentSearchBinding.emptySubtitleText.setVisibility(View.GONE);
+                    fragmentSearchBinding.mainEmptyView.setVisibility(View.GONE);
                     adapter.notifyDataSetChanged();
                 }
 
