@@ -10,6 +10,7 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.Observer;
+import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.viewpager2.widget.CompositePageTransformer;
@@ -31,25 +32,23 @@ import com.hebaelsaid.android.newsapp.repository.NewsRepoImpl;
 
 import java.util.ArrayList;
 
+import javax.inject.Inject;
 
+import dagger.hilt.android.AndroidEntryPoint;
+
+@AndroidEntryPoint
 public class HomeFragment extends Fragment implements LatestNewsAdapter.OnItemClickListener {
     private final String TAG = "HomeFragment";
     private FragmentHomeBinding fragmentHomeBinding;
     private HomeViewModel viewModel;
     private LatestNewsAdapter.OnItemClickListener onItemClickListener;
-    private ArrayList<NewsDetailsUiModel> latestNewsUiModels = new ArrayList<>();
-
-    @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        NewsRepoImpl egyptNewsRepo = new NewsRepoImpl();
-        viewModel = new HomeViewModel(egyptNewsRepo);
-    }
+    private final ArrayList<NewsDetailsUiModel> latestNewsUiModels = new ArrayList<>();
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         fragmentHomeBinding = FragmentHomeBinding.inflate(inflater, container, false);
+        viewModel = new ViewModelProvider(this).get(HomeViewModel.class);
         onItemClickListener = this;
         return fragmentHomeBinding.getRoot();
     }

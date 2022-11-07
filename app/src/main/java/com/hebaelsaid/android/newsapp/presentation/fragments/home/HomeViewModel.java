@@ -9,15 +9,21 @@ import com.hebaelsaid.android.newsapp.domain.model.response.NewsResponseModel;
 import com.hebaelsaid.android.newsapp.repository.NewsRepoImpl;
 
 
+import javax.inject.Inject;
+
+import dagger.hilt.android.lifecycle.HiltViewModel;
 import io.reactivex.Observable;
 import io.reactivex.Observer;
 import io.reactivex.disposables.Disposable;
 
+@HiltViewModel
 public class HomeViewModel extends ViewModel {
     private final String TAG = "HomeViewModel";
     MutableLiveData<NewsResponseModel> egyptNewsMutableLiveData = new MutableLiveData<>();
     MutableLiveData<NewsResponseModel> AllNewsMutableLiveData = new MutableLiveData<>();
-    private NewsRepoImpl egyptNewsRepo;
+
+    private final NewsRepoImpl egyptNewsRepo;
+    @Inject
     public HomeViewModel(NewsRepoImpl egyptNewsRepo){
         this.egyptNewsRepo = egyptNewsRepo;
     }

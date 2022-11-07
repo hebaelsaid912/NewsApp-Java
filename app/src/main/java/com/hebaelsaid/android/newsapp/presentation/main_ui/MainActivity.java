@@ -12,6 +12,9 @@ import android.os.Bundle;
 import com.hebaelsaid.android.newsapp.R;
 import com.hebaelsaid.android.newsapp.databinding.ActivityMainBinding;
 
+import dagger.hilt.android.AndroidEntryPoint;
+
+@AndroidEntryPoint
 public class MainActivity extends AppCompatActivity {
     private ActivityMainBinding mainBinding;
 
