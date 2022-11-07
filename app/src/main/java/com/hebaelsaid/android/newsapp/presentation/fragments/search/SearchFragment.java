@@ -62,7 +62,7 @@ public class SearchFragment extends Fragment {
     }
 
     private void observeNewsData() {
-        searchViewModel.AllNewsMutableLiveData.observe(getViewLifecycleOwner(), new Observer<NewsResponseModel>() {
+        searchViewModel.getAllNewsMutableLiveData().observe(getViewLifecycleOwner(), new Observer<NewsResponseModel>() {
             @Override
             public void onChanged(NewsResponseModel newsResponseModel) {
                 ArrayList<NewsDetailsUiModel> latestNewsUiModels = newsResponseModel.getUiModels();

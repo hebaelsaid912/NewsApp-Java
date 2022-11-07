@@ -2,6 +2,7 @@ package com.hebaelsaid.android.newsapp.presentation.fragments.home;
 
 import android.util.Log;
 
+import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
@@ -20,8 +21,16 @@ import io.reactivex.disposables.Disposable;
 @HiltViewModel
 public class HomeViewModel extends ViewModel {
     private final String TAG = "HomeViewModel";
-    MutableLiveData<NewsResponseModel> egyptNewsMutableLiveData = new MutableLiveData<>();
-    MutableLiveData<NewsResponseModel> AllNewsMutableLiveData = new MutableLiveData<>();
+    private MutableLiveData<NewsResponseModel> egyptNewsMutableLiveData = new MutableLiveData<>();
+    private MutableLiveData<NewsResponseModel> AllNewsMutableLiveData = new MutableLiveData<>();
+
+    public LiveData<NewsResponseModel> getEgyptNewsMutableLiveData() {
+        return egyptNewsMutableLiveData;
+    }
+
+    public LiveData<NewsResponseModel> getAllNewsMutableLiveData() {
+        return AllNewsMutableLiveData;
+    }
 
     private final NewsRepoImpl egyptNewsRepo;
     @Inject

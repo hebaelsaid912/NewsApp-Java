@@ -2,6 +2,7 @@ package com.hebaelsaid.android.newsapp.presentation.fragments.search;
 
 import android.util.Log;
 
+import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
@@ -19,7 +20,12 @@ import io.reactivex.disposables.Disposable;
 @HiltViewModel
 public class SearchViewModel extends ViewModel {
     private final String TAG = "SearchViewModel";
-    MutableLiveData<NewsResponseModel> AllNewsMutableLiveData = new MutableLiveData<>();
+    private MutableLiveData<NewsResponseModel> AllNewsMutableLiveData = new MutableLiveData<>();
+
+    public LiveData<NewsResponseModel> getAllNewsMutableLiveData() {
+        return AllNewsMutableLiveData;
+    }
+
     private final NewsRepoImpl egyptNewsRepo;
     @Inject
     public SearchViewModel(NewsRepoImpl egyptNewsRepo){

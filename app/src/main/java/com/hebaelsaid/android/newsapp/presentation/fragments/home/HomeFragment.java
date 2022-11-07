@@ -62,7 +62,7 @@ public class HomeFragment extends Fragment {
         setupRecyclerView();
     }
     private void observeNewsData() {
-        viewModel.egyptNewsMutableLiveData.observe(getViewLifecycleOwner(), newsResponseModel -> {
+        viewModel.getEgyptNewsMutableLiveData().observe(getViewLifecycleOwner(), newsResponseModel -> {
             setupTopBannerAdapter(newsResponseModel);
             setupViewPager();
             setupTabLayout();
@@ -70,7 +70,7 @@ public class HomeFragment extends Fragment {
         });
     }
     private void observeLatestNewsData() {
-        viewModel.AllNewsMutableLiveData.observe(getViewLifecycleOwner(), latestNewsResponseModel -> {
+        viewModel.getAllNewsMutableLiveData().observe(getViewLifecycleOwner(), latestNewsResponseModel -> {
             ArrayList<NewsDetailsUiModel> uiModels = latestNewsResponseModel.getUiModels();
             latestNewsAdapter.setData(uiModels);
         });
