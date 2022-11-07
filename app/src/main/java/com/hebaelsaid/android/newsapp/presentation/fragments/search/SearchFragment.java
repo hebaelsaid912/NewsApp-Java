@@ -2,9 +2,6 @@ package com.hebaelsaid.android.newsapp.presentation.fragments.search;
 
 import static com.hebaelsaid.android.newsapp.utils.CommonFunction.isOnline;
 
-import android.content.Context;
-import android.net.ConnectivityManager;
-import android.net.NetworkCapabilities;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -14,7 +11,6 @@ import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.Navigation;
 
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -23,12 +19,7 @@ import android.widget.SearchView;
 import com.hebaelsaid.android.newsapp.databinding.FragmentSearchBinding;
 import com.hebaelsaid.android.newsapp.domain.model.response.NewsResponseModel;
 import com.hebaelsaid.android.newsapp.domain.model.ui_model.NewsDetailsUiModel;
-import com.hebaelsaid.android.newsapp.presentation.fragments.home.HomeFragment;
-import com.hebaelsaid.android.newsapp.presentation.fragments.home.HomeFragmentDirections;
-import com.hebaelsaid.android.newsapp.presentation.fragments.home.HomeViewModel;
 import com.hebaelsaid.android.newsapp.presentation.fragments.home.latest_news.LatestNewsAdapter;
-import com.hebaelsaid.android.newsapp.repository.NewsRepoImpl;
-import com.hebaelsaid.android.newsapp.utils.CommonFunction;
 
 import java.util.ArrayList;
 
@@ -40,7 +31,7 @@ public class SearchFragment extends Fragment {
     private FragmentSearchBinding fragmentSearchBinding;
     private SearchViewModel searchViewModel;
     private LatestNewsAdapter latestNewsAdapter;
-
+    private final ArrayList<NewsDetailsUiModel> latestNewsUiModels = new ArrayList<>();
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -65,7 +56,7 @@ public class SearchFragment extends Fragment {
         searchViewModel.getAllNewsMutableLiveData().observe(getViewLifecycleOwner(), new Observer<NewsResponseModel>() {
             @Override
             public void onChanged(NewsResponseModel newsResponseModel) {
-                ArrayList<NewsDetailsUiModel> latestNewsUiModels = newsResponseModel.getUiModels();
+                ArrayList<NewsDetailsUiModel> latestNewsUiModels = newsResponseModel.getSearchNewsUiModels();
                 setupValidateUi(latestNewsUiModels);
                 latestNewsAdapter.setData(latestNewsUiModels);
             }

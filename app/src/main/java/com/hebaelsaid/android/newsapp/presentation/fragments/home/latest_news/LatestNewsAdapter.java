@@ -1,14 +1,11 @@
 package com.hebaelsaid.android.newsapp.presentation.fragments.home.latest_news;
 
-import android.content.Context;
-import android.view.LayoutInflater;
-import android.view.View;
+
 import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.hebaelsaid.android.newsapp.databinding.LatestNewListItemBinding;
 import com.hebaelsaid.android.newsapp.domain.model.ui_model.NewsDetailsUiModel;
 
 import java.util.ArrayList;

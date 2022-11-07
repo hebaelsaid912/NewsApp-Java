@@ -7,14 +7,12 @@ import android.os.Bundle;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
-import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.viewpager2.widget.CompositePageTransformer;
 import androidx.viewpager2.widget.MarginPageTransformer;
 
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -26,7 +24,6 @@ import com.hebaelsaid.android.newsapp.domain.model.response.NewsResponseModel;
 import com.hebaelsaid.android.newsapp.domain.model.ui_model.NewsDetailsUiModel;
 import com.hebaelsaid.android.newsapp.presentation.fragments.home.latest_news.LatestNewsAdapter;
 import com.hebaelsaid.android.newsapp.presentation.fragments.home.top_banner.TopBannerAdapter;
-import com.hebaelsaid.android.newsapp.utils.CommonFunction;
 import com.hebaelsaid.android.newsapp.utils.Constants;
 
 import java.util.ArrayList;
@@ -40,6 +37,7 @@ public class HomeFragment extends Fragment {
     private FragmentHomeBinding fragmentHomeBinding;
     private HomeViewModel viewModel;
     private LatestNewsAdapter latestNewsAdapter;
+    private final ArrayList<NewsDetailsUiModel> latestNewsUiModels = new ArrayList<>();
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -71,8 +69,7 @@ public class HomeFragment extends Fragment {
     }
     private void observeLatestNewsData() {
         viewModel.getAllNewsMutableLiveData().observe(getViewLifecycleOwner(), latestNewsResponseModel -> {
-            ArrayList<NewsDetailsUiModel> uiModels = latestNewsResponseModel.getUiModels();
-            latestNewsAdapter.setData(uiModels);
+            latestNewsAdapter.setData(latestNewsResponseModel.getLatestNewsUiModels(latestNewsUiModels));
         });
     }
     private void showConnectedUi() {

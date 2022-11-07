@@ -34,7 +34,18 @@ public class NewsResponseModel {
     public void setArticles(List<ArticlesBean> articles) {
         this.articles = articles;
     }
-    public ArrayList<NewsDetailsUiModel> getUiModels() {
+    public ArrayList<NewsDetailsUiModel> getLatestNewsUiModels(ArrayList<NewsDetailsUiModel> latestNewsUiModels) {
+        for (int i = 0; i < getArticles().size(); i++) {
+            NewsDetailsUiModel latestNewsUiModel = new NewsDetailsUiModel();
+            latestNewsUiModel.setName(getArticles().get(i).getTitle());
+            latestNewsUiModel.setPublishedAt(getArticles().get(i).getPublishedAt());
+            latestNewsUiModel.setUrl(getArticles().get(i).getUrlToImage());
+            latestNewsUiModel.setDescription(getArticles().get(i).getDescription());
+            latestNewsUiModels.add(latestNewsUiModel);
+        }
+        return latestNewsUiModels;
+    }
+    public ArrayList<NewsDetailsUiModel> getSearchNewsUiModels() {
         ArrayList<NewsDetailsUiModel> latestNewsUiModels = new ArrayList<>();
         for (int i = 0; i < getArticles().size(); i++) {
             NewsDetailsUiModel latestNewsUiModel = new NewsDetailsUiModel();
