@@ -1,5 +1,8 @@
 package com.hebaelsaid.android.newsapp.presentation.fragments.search;
 
+import android.content.Context;
+import android.net.ConnectivityManager;
+import android.net.NetworkCapabilities;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -8,16 +11,15 @@ import androidx.fragment.app.Fragment;
 import androidx.lifecycle.Observer;
 import androidx.navigation.Navigation;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.SearchView;
 
-import com.hebaelsaid.android.newsapp.R;
 import com.hebaelsaid.android.newsapp.databinding.FragmentSearchBinding;
 import com.hebaelsaid.android.newsapp.domain.model.response.NewsResponseModel;
 import com.hebaelsaid.android.newsapp.domain.model.ui_model.NewsDetailsUiModel;
-import com.hebaelsaid.android.newsapp.presentation.fragments.home.HomeFragmentDirections;
 import com.hebaelsaid.android.newsapp.presentation.fragments.home.latest_news.LatestNewsAdapter;
 import com.hebaelsaid.android.newsapp.repository.NewsRepoImpl;
 
@@ -47,29 +49,34 @@ public class SearchFragment extends Fragment implements LatestNewsAdapter.OnItem
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        fragmentSearchBinding.newsSearchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
-            @Override
-            public boolean onQueryTextSubmit(String s) {
-                if(s != null){
-                    searchViewModel.getLatestNewsData(s);
-                    return true;
+        if(isOnline(requireContext())) {
+            fragmentSearchBinding.newsSearchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+                @Override
+                public boolean onQueryTextSubmit(String s) {
+                    if (s != null) {
+                        searchViewModel.getLatestNewsData(s);
+                        return true;
+                    }
+                    return false;
                 }
-                return false;
-            }
 
-            @Override
-            public boolean onQueryTextChange(String s) {
-                if(s != null){
-                    searchViewModel.getLatestNewsData(s);
-                    return true;
+                @Override
+                public boolean onQueryTextChange(String s) {
+                    if (s != null) {
+                        searchViewModel.getLatestNewsData(s);
+                        return true;
+                    }
+                    return false;
                 }
-                return false;
-            }
-        });
+            });
+        }else{
+            fragmentSearchBinding.mainEmptyView.setVisibility(View.GONE);
+            fragmentSearchBinding.notInternetConnectionLayout.getRoot().setVisibility(View.VISIBLE);
+        }
         searchViewModel.AllNewsMutableLiveData.observe(getViewLifecycleOwner(), new Observer<NewsResponseModel>() {
             @Override
             public void onChanged(NewsResponseModel newsResponseModel) {
-                 ArrayList<NewsDetailsUiModel> latestNewsUiModels = new ArrayList<>();
+                ArrayList<NewsDetailsUiModel> latestNewsUiModels = new ArrayList<>();
                 for (int i = 0; i < newsResponseModel.getArticles().size(); i++) {
                     NewsDetailsUiModel latestNewsUiModel = new NewsDetailsUiModel();
                     latestNewsUiModel.setName(newsResponseModel.getArticles().get(i).getTitle());
@@ -77,10 +84,11 @@ public class SearchFragment extends Fragment implements LatestNewsAdapter.OnItem
                     latestNewsUiModel.setUrl(newsResponseModel.getArticles().get(i).getUrlToImage());
                     latestNewsUiModel.setDescription(newsResponseModel.getArticles().get(i).getDescription());
                     latestNewsUiModels.add(latestNewsUiModel);
-                }if(latestNewsUiModels.isEmpty()){
+                }
+                if (latestNewsUiModels.isEmpty()) {
                     fragmentSearchBinding.newsSearchDataRv.setVisibility(View.GONE);
                     fragmentSearchBinding.mainEmptyView.setVisibility(View.VISIBLE);
-                }else {
+                } else {
                     LatestNewsAdapter adapter = new LatestNewsAdapter(latestNewsUiModels, onItemClickListener);
                     fragmentSearchBinding.newsSearchDataRv.setAdapter(adapter);
                     fragmentSearchBinding.newsSearchDataRv.setVisibility(View.VISIBLE);
@@ -90,9 +98,27 @@ public class SearchFragment extends Fragment implements LatestNewsAdapter.OnItem
 
             }
         });
-
     }
-
+    Boolean isOnline(Context context) {
+        ConnectivityManager connectivityManager = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
+        if (connectivityManager != null) {
+            NetworkCapabilities capabilities =
+                    connectivityManager.getNetworkCapabilities(connectivityManager.getActiveNetwork());
+            if (capabilities != null) {
+                if (capabilities.hasTransport(NetworkCapabilities.TRANSPORT_CELLULAR)) {
+                    Log.i(TAG, "NetworkCapabilities.TRANSPORT_CELLULAR");
+                    return true;
+                } else if (capabilities.hasTransport(NetworkCapabilities.TRANSPORT_WIFI)) {
+                    Log.i(TAG, "NetworkCapabilities.TRANSPORT_WIFI");
+                    return true;
+                } else if (capabilities.hasTransport(NetworkCapabilities.TRANSPORT_ETHERNET)) {
+                    Log.i(TAG, "NetworkCapabilities.TRANSPORT_ETHERNET");
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
 
     @Override
     public void onItemClick(View view, NewsDetailsUiModel newsDetailsUiModel) {

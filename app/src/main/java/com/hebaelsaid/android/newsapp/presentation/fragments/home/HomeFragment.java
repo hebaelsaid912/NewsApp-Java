@@ -1,5 +1,8 @@
 package com.hebaelsaid.android.newsapp.presentation.fragments.home;
 
+import android.content.Context;
+import android.net.ConnectivityManager;
+import android.net.NetworkCapabilities;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -12,6 +15,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import androidx.viewpager2.widget.CompositePageTransformer;
 import androidx.viewpager2.widget.MarginPageTransformer;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -53,9 +57,13 @@ public class HomeFragment extends Fragment implements LatestNewsAdapter.OnItemCl
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        viewModel.getTobBannerData("eg");
-        viewModel.getLatestNewsData("bbc-news");
-        viewModel.getLatestNewsData("the-next-web");
+        if (isOnline(requireContext())) {
+            viewModel.getTobBannerData("eg");
+            viewModel.getLatestNewsData("bbc-news");
+            viewModel.getLatestNewsData("the-next-web");
+        }else{
+            fragmentHomeBinding.notInternetConnectionLayout.getRoot().setVisibility(View.VISIBLE);
+        }
 
         viewModel.egyptNewsMutableLiveData.observe(getViewLifecycleOwner(), new Observer<NewsResponseModel>() {
             @Override
@@ -113,6 +121,26 @@ public class HomeFragment extends Fragment implements LatestNewsAdapter.OnItemCl
     private void setRecycleView() {
         LatestNewsAdapter adapter = new LatestNewsAdapter(latestNewsUiModels, onItemClickListener);
         fragmentHomeBinding.latestNewsRv.setAdapter(adapter);
+    }
+    Boolean isOnline(Context context) {
+        ConnectivityManager connectivityManager = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
+        if (connectivityManager != null) {
+            NetworkCapabilities capabilities =
+                    connectivityManager.getNetworkCapabilities(connectivityManager.getActiveNetwork());
+            if (capabilities != null) {
+                if (capabilities.hasTransport(NetworkCapabilities.TRANSPORT_CELLULAR)) {
+                    Log.i(TAG, "NetworkCapabilities.TRANSPORT_CELLULAR");
+                    return true;
+                } else if (capabilities.hasTransport(NetworkCapabilities.TRANSPORT_WIFI)) {
+                    Log.i(TAG, "NetworkCapabilities.TRANSPORT_WIFI");
+                    return true;
+                } else if (capabilities.hasTransport(NetworkCapabilities.TRANSPORT_ETHERNET)) {
+                    Log.i(TAG, "NetworkCapabilities.TRANSPORT_ETHERNET");
+                    return true;
+                }
+            }
+        }
+        return false;
     }
 
     @Override

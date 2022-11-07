@@ -6,4 +6,6 @@
     <string name="search">Search</string>
     <string name="please_click_on_search_icon_to_search_for_news">Please click on search icon to search for news</string>
     <string name="there_is_no_news_appear">There is no news appear</string>
+    <string name="there_is_no_internet_connection">There is no internet connection</string>
+    <string name="please_check_your_internet_connection">Please, check your internet connection</string>
 </resources>
