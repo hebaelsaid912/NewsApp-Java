@@ -10,12 +10,15 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:background="@color/screen_bg"
         tools:context=".presentation.fragments.search.SearchFragment">
 
         <SearchView
             android:id="@+id/news_search_view"
             android:layout_width="match_parent"
             android:layout_height="@dimen/_50sdp"
+            android:background="@drawable/white_shape_with_corners"
+            android:layout_margin="@dimen/_10sdp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />

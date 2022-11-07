@@ -35,7 +35,7 @@
 
         <androidx.viewpager2.widget.ViewPager2
             android:id="@+id/top_banner_view_pager"
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="@dimen/_170sdp"
             android:animateLayoutChanges="true"
             app:layout_constraintEnd_toEndOf="parent"

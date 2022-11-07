@@ -11,20 +11,23 @@
     </data>
 
     <androidx.cardview.widget.CardView
-        android:layout_width="@dimen/_200sdp"
+        android:layout_width="match_parent"
         android:layout_height="@dimen/_150sdp"
         app:cardCornerRadius="@dimen/_15sdp"
         android:backgroundTint="@color/screen_bg"
-        android:layout_margin="@dimen/_15sdp"
+        android:layout_marginTop="@dimen/_15sdp"
+        android:layout_marginBottom="@dimen/_15sdp"
+        android:layout_marginStart="@dimen/_40sdp"
+        android:layout_marginEnd="@dimen/_40sdp"
         tools:context=".presentation.fragments.home.top_banner.TopBannerFragment">
 
         <androidx.constraintlayout.widget.ConstraintLayout
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="match_parent">
 
             <ImageView
                 android:id="@+id/top_banner_img"
-                android:layout_width="wrap_content"
+                android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:scaleType="centerCrop"
                 app:setImageGlideUri="@{model.url.toString()}"

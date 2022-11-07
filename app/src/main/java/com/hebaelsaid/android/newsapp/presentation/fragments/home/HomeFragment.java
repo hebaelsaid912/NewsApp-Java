@@ -116,7 +116,6 @@ public class HomeFragment extends Fragment {
         fragmentHomeBinding.topBannerViewPager.setOffscreenPageLimit(3);
         fragmentHomeBinding.topBannerViewPager.setClipToPadding(false);
         fragmentHomeBinding.topBannerViewPager.setClipChildren(false);
-        fragmentHomeBinding.topBannerViewPager.getChildAt(0).setOverScrollMode(RecyclerView.OVER_SCROLL_NEVER);
         setupPageTransformer(pageOffset);
     }
 
