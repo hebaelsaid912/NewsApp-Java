@@ -7,6 +7,7 @@ import androidx.lifecycle.ViewModel;
 
 import com.hebaelsaid.android.newsapp.domain.model.response.NewsResponseModel;
 import com.hebaelsaid.android.newsapp.repository.NewsRepoImpl;
+import com.hebaelsaid.android.newsapp.utils.CommonFunction;
 
 
 import javax.inject.Inject;
@@ -47,6 +48,7 @@ public class HomeViewModel extends ViewModel {
             @Override
             public void onError(Throwable e) {
                 Log.i(TAG, "getTobBannerData: onError: " + e.getMessage());
+                Log.i(TAG, "getTobBannerData: onError: " + CommonFunction.apisHandleError(e));
             }
 
             @Override
@@ -78,6 +80,8 @@ public class HomeViewModel extends ViewModel {
             @Override
             public void onError(Throwable e) {
                 Log.i(TAG, "getLatestNewsData: onError: " + e.getMessage());
+                Log.i(TAG, "getLatestNewsData: onError: " + CommonFunction.apisHandleError(e));
+               // CommonFunction.apisHandleError(e);
             }
 
             @Override

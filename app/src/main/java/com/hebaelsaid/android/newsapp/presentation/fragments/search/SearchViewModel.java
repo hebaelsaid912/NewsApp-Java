@@ -7,6 +7,7 @@ import androidx.lifecycle.ViewModel;
 
 import com.hebaelsaid.android.newsapp.domain.model.response.NewsResponseModel;
 import com.hebaelsaid.android.newsapp.repository.NewsRepoImpl;
+import com.hebaelsaid.android.newsapp.utils.CommonFunction;
 
 import io.reactivex.Observable;
 import io.reactivex.Observer;
@@ -41,6 +42,7 @@ public class SearchViewModel extends ViewModel {
             @Override
             public void onError(Throwable e) {
                 Log.i(TAG, "getLatestNewsData: onError: " + e.getMessage());
+                Log.i(TAG, "getLatestNewsData: onError: " + CommonFunction.apisHandleError(e));
             }
 
             @Override
