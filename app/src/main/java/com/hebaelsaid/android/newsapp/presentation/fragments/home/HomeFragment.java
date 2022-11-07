@@ -29,6 +29,8 @@ import com.hebaelsaid.android.newsapp.domain.model.ui_model.NewsDetailsUiModel;
 import com.hebaelsaid.android.newsapp.presentation.fragments.home.latest_news.LatestNewsAdapter;
 import com.hebaelsaid.android.newsapp.presentation.fragments.home.top_banner.TopBannerAdapter;
 import com.hebaelsaid.android.newsapp.repository.NewsRepoImpl;
+import com.hebaelsaid.android.newsapp.utils.CommonFunction;
+import com.hebaelsaid.android.newsapp.utils.Constants;
 
 import java.util.ArrayList;
 
@@ -56,10 +58,10 @@ public class HomeFragment extends Fragment implements LatestNewsAdapter.OnItemCl
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        if (isOnline(requireContext())) {
-            viewModel.getTobBannerData("eg");
-            viewModel.getLatestNewsData("bbc-news");
-            viewModel.getLatestNewsData("the-next-web");
+        if (CommonFunction.isOnline(requireContext())) {
+            viewModel.getTobBannerData(Constants.EGYPT);
+            viewModel.getLatestNewsData(Constants.BBC_NEWS);
+            viewModel.getLatestNewsData(Constants.THE_NEXT_WEB);
         }else{
             fragmentHomeBinding.notInternetConnectionLayout.getRoot().setVisibility(View.VISIBLE);
         }
@@ -120,26 +122,6 @@ public class HomeFragment extends Fragment implements LatestNewsAdapter.OnItemCl
     private void setRecycleView() {
         LatestNewsAdapter adapter = new LatestNewsAdapter(latestNewsUiModels, onItemClickListener);
         fragmentHomeBinding.latestNewsRv.setAdapter(adapter);
-    }
-    Boolean isOnline(Context context) {
-        ConnectivityManager connectivityManager = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
-        if (connectivityManager != null) {
-            NetworkCapabilities capabilities =
-                    connectivityManager.getNetworkCapabilities(connectivityManager.getActiveNetwork());
-            if (capabilities != null) {
-                if (capabilities.hasTransport(NetworkCapabilities.TRANSPORT_CELLULAR)) {
-                    Log.i(TAG, "NetworkCapabilities.TRANSPORT_CELLULAR");
-                    return true;
-                } else if (capabilities.hasTransport(NetworkCapabilities.TRANSPORT_WIFI)) {
-                    Log.i(TAG, "NetworkCapabilities.TRANSPORT_WIFI");
-                    return true;
-                } else if (capabilities.hasTransport(NetworkCapabilities.TRANSPORT_ETHERNET)) {
-                    Log.i(TAG, "NetworkCapabilities.TRANSPORT_ETHERNET");
-                    return true;
-                }
-            }
-        }
-        return false;
     }
 
     @Override

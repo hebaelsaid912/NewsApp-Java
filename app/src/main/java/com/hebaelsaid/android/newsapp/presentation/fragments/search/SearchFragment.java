@@ -22,6 +22,7 @@ import com.hebaelsaid.android.newsapp.domain.model.response.NewsResponseModel;
 import com.hebaelsaid.android.newsapp.domain.model.ui_model.NewsDetailsUiModel;
 import com.hebaelsaid.android.newsapp.presentation.fragments.home.latest_news.LatestNewsAdapter;
 import com.hebaelsaid.android.newsapp.repository.NewsRepoImpl;
+import com.hebaelsaid.android.newsapp.utils.CommonFunction;
 
 import java.util.ArrayList;
 
@@ -49,7 +50,7 @@ public class SearchFragment extends Fragment implements LatestNewsAdapter.OnItem
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        if(isOnline(requireContext())) {
+        if(CommonFunction.isOnline(requireContext())) {
             fragmentSearchBinding.newsSearchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
                 @Override
                 public boolean onQueryTextSubmit(String s) {
@@ -98,26 +99,6 @@ public class SearchFragment extends Fragment implements LatestNewsAdapter.OnItem
 
             }
         });
-    }
-    Boolean isOnline(Context context) {
-        ConnectivityManager connectivityManager = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
-        if (connectivityManager != null) {
-            NetworkCapabilities capabilities =
-                    connectivityManager.getNetworkCapabilities(connectivityManager.getActiveNetwork());
-            if (capabilities != null) {
-                if (capabilities.hasTransport(NetworkCapabilities.TRANSPORT_CELLULAR)) {
-                    Log.i(TAG, "NetworkCapabilities.TRANSPORT_CELLULAR");
-                    return true;
-                } else if (capabilities.hasTransport(NetworkCapabilities.TRANSPORT_WIFI)) {
-                    Log.i(TAG, "NetworkCapabilities.TRANSPORT_WIFI");
-                    return true;
-                } else if (capabilities.hasTransport(NetworkCapabilities.TRANSPORT_ETHERNET)) {
-                    Log.i(TAG, "NetworkCapabilities.TRANSPORT_ETHERNET");
-                    return true;
-                }
-            }
-        }
-        return false;
     }
 
     @Override
