@@ -13,39 +13,35 @@ import com.hebaelsaid.android.newsapp.domain.model.ui_model.NewsDetailsUiModel;
 
 import java.util.ArrayList;
 
-public class LatestNewsAdapter extends RecyclerView.Adapter<LatestNewsAdapter.GetLatestNewsHolder> {
+public class LatestNewsAdapter extends RecyclerView.Adapter<GetLatestNewsHolder> {
 
-    private ArrayList<NewsDetailsUiModel> data;
-    private Context context;
-    private OnItemClickListener onItemClickListener;
+    private ArrayList<NewsDetailsUiModel> data = new ArrayList<>();
+    private final GetLatestNewsHolder.OnItemClickListener onItemClickListener;
 
-    public LatestNewsAdapter(ArrayList<NewsDetailsUiModel> data,OnItemClickListener onItemClickListener) {
-        this.data = data;
+    public LatestNewsAdapter(GetLatestNewsHolder.OnItemClickListener onItemClickListener) {
         this.onItemClickListener = onItemClickListener;
+    }
+
+    public void setData(ArrayList<NewsDetailsUiModel> data) {
+        this.data = data;
+        notifyDataSetChanged();
     }
 
     @NonNull
     @Override
     public GetLatestNewsHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        LatestNewListItemBinding latestNewListItemBinding = LatestNewListItemBinding.inflate(LayoutInflater.from(parent.getContext()) , parent ,false);
-        context  = parent.getContext();
-        return new GetLatestNewsHolder(latestNewListItemBinding);
+       return GetLatestNewsHolder.create(parent);
     }
 
     @Override
-    public void onBindViewHolder(@NonNull LatestNewsAdapter.GetLatestNewsHolder holder, int position) {
-        holder.bind(data.get(position));
-        holder.itemView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                NewsDetailsUiModel newsDetailsUiModel = new NewsDetailsUiModel();
-                newsDetailsUiModel.setName(data.get(position).getName());
-                newsDetailsUiModel.setDescription(data.get(position).getDescription());
-                newsDetailsUiModel.setPublishedAt(data.get(position).getPublishedAt());
-                newsDetailsUiModel.setUrl(data.get(position).getUrl());
-                onItemClickListener.onItemClick(view,newsDetailsUiModel);
-            }
-        });
+    public void onBindViewHolder(@NonNull GetLatestNewsHolder holder, int position) {
+        NewsDetailsUiModel uiModel = data.get(position);
+        holder.bind(uiModel,onItemClickListener);
+    }
+    @Override
+    public void onViewRecycled(@NonNull GetLatestNewsHolder holder) {
+        super.onViewRecycled(holder);
+        holder.recycle();
     }
 
     @Override
@@ -53,22 +49,5 @@ public class LatestNewsAdapter extends RecyclerView.Adapter<LatestNewsAdapter.Ge
         return data.size();
     }
 
-    class GetLatestNewsHolder extends RecyclerView.ViewHolder {
 
-        private final LatestNewListItemBinding latestNewListItemBinding;
-
-        public GetLatestNewsHolder(@NonNull LatestNewListItemBinding latestNewListItemBinding) {
-            super(latestNewListItemBinding.getRoot());
-            this.latestNewListItemBinding = latestNewListItemBinding;
-
-        }
-
-        void bind(NewsDetailsUiModel latestNewsUiModel) {
-            latestNewListItemBinding.setModel(latestNewsUiModel);
-        }
-
-    }
-    public interface OnItemClickListener {
-        void onItemClick(View view, NewsDetailsUiModel newsDetailsUiModel);
-    }
 }

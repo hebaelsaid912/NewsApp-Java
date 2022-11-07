@@ -1,5 +1,8 @@
 package com.hebaelsaid.android.newsapp.domain.model.response;
 
+import com.hebaelsaid.android.newsapp.domain.model.ui_model.NewsDetailsUiModel;
+
+import java.util.ArrayList;
 import java.util.List;
 
 public class NewsResponseModel {
@@ -31,7 +34,19 @@ public class NewsResponseModel {
     public void setArticles(List<ArticlesBean> articles) {
         this.articles = articles;
     }
+    public ArrayList<NewsDetailsUiModel> getUiModels() {
+        ArrayList<NewsDetailsUiModel> latestNewsUiModels = new ArrayList<>();
+        for (int i = 0; i < getArticles().size(); i++) {
+            NewsDetailsUiModel latestNewsUiModel = new NewsDetailsUiModel();
+            latestNewsUiModel.setName(getArticles().get(i).getTitle());
+            latestNewsUiModel.setPublishedAt(getArticles().get(i).getPublishedAt());
+            latestNewsUiModel.setUrl(getArticles().get(i).getUrlToImage());
+            latestNewsUiModel.setDescription(getArticles().get(i).getDescription());
+            latestNewsUiModels.add(latestNewsUiModel);
+        }
 
+        return latestNewsUiModels;
+    }
     public static class ArticlesBean {
 
         private SourceBean source;

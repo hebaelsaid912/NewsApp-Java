@@ -9,14 +9,19 @@ import com.hebaelsaid.android.newsapp.domain.model.response.NewsResponseModel;
 import com.hebaelsaid.android.newsapp.repository.NewsRepoImpl;
 import com.hebaelsaid.android.newsapp.utils.CommonFunction;
 
+import javax.inject.Inject;
+
+import dagger.hilt.android.lifecycle.HiltViewModel;
 import io.reactivex.Observable;
 import io.reactivex.Observer;
 import io.reactivex.disposables.Disposable;
 
+@HiltViewModel
 public class SearchViewModel extends ViewModel {
     private final String TAG = "SearchViewModel";
     MutableLiveData<NewsResponseModel> AllNewsMutableLiveData = new MutableLiveData<>();
-    private NewsRepoImpl egyptNewsRepo;
+    private final NewsRepoImpl egyptNewsRepo;
+    @Inject
     public SearchViewModel(NewsRepoImpl egyptNewsRepo){
         this.egyptNewsRepo = egyptNewsRepo;
     }

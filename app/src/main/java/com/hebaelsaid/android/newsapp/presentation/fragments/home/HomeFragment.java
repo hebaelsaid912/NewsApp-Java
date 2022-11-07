@@ -1,14 +1,12 @@
 package com.hebaelsaid.android.newsapp.presentation.fragments.home;
 
-import android.content.Context;
-import android.net.ConnectivityManager;
-import android.net.NetworkCapabilities;
+import static com.hebaelsaid.android.newsapp.utils.CommonFunction.isOnline;
+
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
-import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.Navigation;
@@ -28,104 +26,113 @@ import com.hebaelsaid.android.newsapp.domain.model.response.NewsResponseModel;
 import com.hebaelsaid.android.newsapp.domain.model.ui_model.NewsDetailsUiModel;
 import com.hebaelsaid.android.newsapp.presentation.fragments.home.latest_news.LatestNewsAdapter;
 import com.hebaelsaid.android.newsapp.presentation.fragments.home.top_banner.TopBannerAdapter;
-import com.hebaelsaid.android.newsapp.repository.NewsRepoImpl;
 import com.hebaelsaid.android.newsapp.utils.CommonFunction;
 import com.hebaelsaid.android.newsapp.utils.Constants;
 
 import java.util.ArrayList;
 
-import javax.inject.Inject;
 
 import dagger.hilt.android.AndroidEntryPoint;
 
 @AndroidEntryPoint
-public class HomeFragment extends Fragment implements LatestNewsAdapter.OnItemClickListener {
+public class HomeFragment extends Fragment {
     private final String TAG = "HomeFragment";
     private FragmentHomeBinding fragmentHomeBinding;
     private HomeViewModel viewModel;
-    private LatestNewsAdapter.OnItemClickListener onItemClickListener;
-    private final ArrayList<NewsDetailsUiModel> latestNewsUiModels = new ArrayList<>();
-
+    private LatestNewsAdapter latestNewsAdapter;
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         fragmentHomeBinding = FragmentHomeBinding.inflate(inflater, container, false);
         viewModel = new ViewModelProvider(this).get(HomeViewModel.class);
-        onItemClickListener = this;
         return fragmentHomeBinding.getRoot();
     }
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        if (CommonFunction.isOnline(requireContext())) {
-            viewModel.getTobBannerData(Constants.EGYPT);
-            viewModel.getLatestNewsData(Constants.BBC_NEWS);
-            viewModel.getLatestNewsData(Constants.THE_NEXT_WEB);
-        }else{
-            fragmentHomeBinding.notInternetConnectionLayout.getRoot().setVisibility(View.VISIBLE);
+        if (isOnline(requireContext())) {
+            showConnectedUi();
+        } else {
+            showOfflineUi();
         }
 
-        viewModel.egyptNewsMutableLiveData.observe(getViewLifecycleOwner(), new Observer<NewsResponseModel>() {
-            @Override
-            public void onChanged(NewsResponseModel newsResponseModel) {
-                fragmentHomeBinding.topBannerViewPager.setAdapter(new TopBannerAdapter(requireActivity(), newsResponseModel.getArticles()));
-                float pageOffset = getResources().getDimensionPixelOffset(R.dimen.offset);
-                fragmentHomeBinding.topBannerViewPager.setOffscreenPageLimit(3);
-                fragmentHomeBinding.topBannerViewPager.setClipToPadding(false);
-                fragmentHomeBinding.topBannerViewPager.setClipChildren(false);
-                fragmentHomeBinding.topBannerViewPager.getChildAt(0).setOverScrollMode(RecyclerView.OVER_SCROLL_NEVER);
-                CompositePageTransformer transformer = new CompositePageTransformer();
-                transformer.addTransformer(new MarginPageTransformer(40));
-                transformer.addTransformer((page, position) -> {
-                    float offset = position * -(2 * pageOffset + pageOffset);
-                    float scaleFactor = Math.max(0.85f, 1 - Math.abs(position - 0.14f));
-                    page.setTranslationX(offset);
-                    page.setScaleY(scaleFactor);
-                    page.setAlpha(scaleFactor);
-                });
-                fragmentHomeBinding.topBannerViewPager.setPageTransformer(transformer);
-                new TabLayoutMediator(
-                        fragmentHomeBinding.tabsDots,
-                        fragmentHomeBinding.topBannerViewPager,
-                        (tab, position) -> {
-
-                        }
-                ).attach();
-                for (int i = 0; i < newsResponseModel.getArticles().size(); i++) {
-                    View tab = ((ViewGroup) fragmentHomeBinding.tabsDots.getChildAt(0)).getChildAt(i);
-                    ViewGroup.MarginLayoutParams p = (ViewGroup.MarginLayoutParams) tab.getLayoutParams();
-                    p.setMargins(0, 0, 10, 0);
-                    tab.requestLayout();
-                }
-
-            }
-
-        });
-
-        viewModel.AllNewsMutableLiveData.observe(getViewLifecycleOwner(), new Observer<NewsResponseModel>() {
-            @Override
-            public void onChanged(NewsResponseModel latestNewsResponseModel) {
-                for (int i = 0; i < latestNewsResponseModel.getArticles().size(); i++) {
-                    NewsDetailsUiModel latestNewsUiModel = new NewsDetailsUiModel();
-                    latestNewsUiModel.setName(latestNewsResponseModel.getArticles().get(i).getTitle());
-                    latestNewsUiModel.setPublishedAt(latestNewsResponseModel.getArticles().get(i).getPublishedAt());
-                    latestNewsUiModel.setUrl(latestNewsResponseModel.getArticles().get(i).getUrlToImage());
-                    latestNewsUiModel.setDescription(latestNewsResponseModel.getArticles().get(i).getDescription());
-                    latestNewsUiModels.add(latestNewsUiModel);
-                }
-                setRecycleView();
-            }
+        observeNewsData();
+        observeLatestNewsData();
+        setupRecyclerView();
+    }
+    private void observeNewsData() {
+        viewModel.egyptNewsMutableLiveData.observe(getViewLifecycleOwner(), newsResponseModel -> {
+            setupTopBannerAdapter(newsResponseModel);
+            setupViewPager();
+            setupTabLayout();
+            setupTabDots(newsResponseModel);
         });
     }
-
-    private void setRecycleView() {
-        LatestNewsAdapter adapter = new LatestNewsAdapter(latestNewsUiModels, onItemClickListener);
-        fragmentHomeBinding.latestNewsRv.setAdapter(adapter);
+    private void observeLatestNewsData() {
+        viewModel.AllNewsMutableLiveData.observe(getViewLifecycleOwner(), latestNewsResponseModel -> {
+            ArrayList<NewsDetailsUiModel> uiModels = latestNewsResponseModel.getUiModels();
+            latestNewsAdapter.setData(uiModels);
+        });
+    }
+    private void showConnectedUi() {
+        viewModel.getTobBannerData(Constants.EGYPT);
+        viewModel.getLatestNewsData(Constants.BBC_NEWS);
+        viewModel.getLatestNewsData(Constants.THE_NEXT_WEB);
+    }
+    private void showOfflineUi() {
+        fragmentHomeBinding.notInternetConnectionLayout.getRoot().setVisibility(View.VISIBLE);
+    }
+    private void setupRecyclerView() {
+        latestNewsAdapter = new LatestNewsAdapter(HomeFragment::onNewsItemClicked);
+        fragmentHomeBinding.latestNewsRv.setAdapter(latestNewsAdapter);
+    }
+    private static void onNewsItemClicked(View view1, NewsDetailsUiModel newsDetailsUiModel) {
+        Navigation.findNavController(view1).navigate(HomeFragmentDirections.actionHomeFragmentToDetailsFragment(newsDetailsUiModel));
+    }
+    private void setupTopBannerAdapter(NewsResponseModel newsResponseModel) {
+        TopBannerAdapter topBannerAdapter = new TopBannerAdapter(requireActivity(), newsResponseModel.getArticles());
+        fragmentHomeBinding.topBannerViewPager.setAdapter(topBannerAdapter);
     }
 
-    @Override
-    public void onItemClick(View view, NewsDetailsUiModel newsDetailsUiModel) {
-        Navigation.findNavController(view).navigate(HomeFragmentDirections.actionHomeFragmentToDetailsFragment(newsDetailsUiModel));
+    private void setupTabDots(NewsResponseModel newsResponseModel) {
+        for (int i = 0; i < newsResponseModel.getArticles().size(); i++) {
+            View tab = ((ViewGroup) fragmentHomeBinding.tabsDots.getChildAt(0)).getChildAt(i);
+            ViewGroup.MarginLayoutParams p = (ViewGroup.MarginLayoutParams) tab.getLayoutParams();
+            p.setMargins(0, 0, 10, 0);
+            tab.requestLayout();
+        }
+    }
+
+    private void setupTabLayout() {
+        new TabLayoutMediator(
+                fragmentHomeBinding.tabsDots,
+                fragmentHomeBinding.topBannerViewPager,
+                (tab, position) -> {
+                    // TODO implement this one
+                }
+        ).attach();
+    }
+
+    private void setupViewPager() {
+        float pageOffset = getResources().getDimensionPixelOffset(R.dimen.offset);
+        fragmentHomeBinding.topBannerViewPager.setOffscreenPageLimit(3);
+        fragmentHomeBinding.topBannerViewPager.setClipToPadding(false);
+        fragmentHomeBinding.topBannerViewPager.setClipChildren(false);
+        fragmentHomeBinding.topBannerViewPager.getChildAt(0).setOverScrollMode(RecyclerView.OVER_SCROLL_NEVER);
+        setupPageTransformer(pageOffset);
+    }
+
+    private void setupPageTransformer(float pageOffset) {
+        CompositePageTransformer transformer = new CompositePageTransformer();
+        transformer.addTransformer(new MarginPageTransformer(40));
+        transformer.addTransformer((page, position) -> {
+            float offset = position * -(2 * pageOffset + pageOffset);
+            float scaleFactor = Math.max(0.85f, 1 - Math.abs(position - 0.14f));
+            page.setTranslationX(offset);
+            page.setScaleY(scaleFactor);
+            page.setAlpha(scaleFactor);
+        });
+        fragmentHomeBinding.topBannerViewPager.setPageTransformer(transformer);
     }
 }
