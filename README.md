@@ -46,3 +46,4 @@ The following diagram shows all the modules and how each module interact with on
 - Scalable Unit 
   - text size.
   - unit size.
+- Dependency Injection (dagger-hilt).
