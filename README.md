@@ -41,6 +41,7 @@ The following diagram shows all the modules and how each module interact with on
     - Single Activity 
        - multiple Fragment handled together using Navigation.
 - Retrofit2 & Gson - construct the REST APIs.
+- LiveData - dispose of observing data when lifecycle state changes.
 - RXJava  uses observable sequences to perform asynchronous and event-based programming.
 - Glide for image loading
 - Scalable Unit 
