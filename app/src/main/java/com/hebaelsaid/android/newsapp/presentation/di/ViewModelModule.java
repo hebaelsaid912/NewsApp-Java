@@ -1,4 +1,4 @@
-package com.hebaelsaid.android.newsapp.di;
+package com.hebaelsaid.android.newsapp.presentation.di;
 
 
 import com.hebaelsaid.android.newsapp.repository.NewsRepoImpl;
