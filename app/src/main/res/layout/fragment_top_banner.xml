@@ -6,7 +6,7 @@
     <data>
         <variable
             name="model"
-            type="com.hebaelsaid.android.newsapp.domain.model.ui_model.NewsDetailsUiModel" />
+            type="com.hebaelsaid.android.newsapp.domain.ui_model.NewsDetailsUiModel" />
 
     </data>
 
@@ -19,7 +19,7 @@
         android:layout_marginBottom="@dimen/_15sdp"
         android:layout_marginStart="@dimen/_40sdp"
         android:layout_marginEnd="@dimen/_40sdp"
-        tools:context=".presentation.fragments.home.top_banner.TopBannerFragment">
+        tools:context=".ui.feature.home.top_banner.TopBannerFragment">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"

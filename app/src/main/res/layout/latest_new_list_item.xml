@@ -6,7 +6,7 @@
     <data>
         <variable
             name="model"
-            type="com.hebaelsaid.android.newsapp.domain.model.ui_model.NewsDetailsUiModel" />
+            type="com.hebaelsaid.android.newsapp.domain.ui_model.NewsDetailsUiModel" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout

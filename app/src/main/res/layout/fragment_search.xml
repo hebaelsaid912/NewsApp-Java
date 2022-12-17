@@ -11,7 +11,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="@color/screen_bg"
-        tools:context=".presentation.fragments.search.SearchFragment">
+        tools:context=".ui.feature.search.SearchFragment">
 
         <SearchView
             android:id="@+id/news_search_view"
