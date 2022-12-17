@@ -35,16 +35,18 @@
 
         <androidx.viewpager2.widget.ViewPager2
             android:id="@+id/top_banner_view_pager"
-            android:layout_width="0dp"
+            android:layout_width="wrap_content"
             android:layout_height="@dimen/_170sdp"
             android:animateLayoutChanges="true"
+            android:layout_marginEnd="@dimen/_30sdp"
+            android:layout_marginStart="@dimen/_30sdp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/textView" />
 
         <com.google.android.material.tabs.TabLayout
             android:id="@+id/tabs_dots"
-            android:layout_width="0dp"
+            android:layout_width="@dimen/_60sdp"
             android:layout_height="@dimen/_10sdp"
             android:layout_marginTop="@dimen/_10sdp"
             android:background="@color/screen_bg"

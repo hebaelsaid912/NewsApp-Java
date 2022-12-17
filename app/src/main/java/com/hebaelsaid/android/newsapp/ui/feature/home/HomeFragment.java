@@ -113,21 +113,21 @@ public class HomeFragment extends Fragment {
     private void setupViewPager() {
         float pageOffset = getResources().getDimensionPixelOffset(R.dimen.offset);
         fragmentHomeBinding.topBannerViewPager.setOffscreenPageLimit(3);
-        fragmentHomeBinding.topBannerViewPager.setClipToPadding(false);
-        fragmentHomeBinding.topBannerViewPager.setClipChildren(false);
+        fragmentHomeBinding.topBannerViewPager.setClipToPadding(true);
+        fragmentHomeBinding.topBannerViewPager.setClipChildren(true);
         setupPageTransformer(pageOffset);
     }
 
     private void setupPageTransformer(float pageOffset) {
         CompositePageTransformer transformer = new CompositePageTransformer();
         transformer.addTransformer(new MarginPageTransformer(40));
-        transformer.addTransformer((page, position) -> {
+       /* transformer.addTransformer((page, position) -> {
             float offset = position * -(2 * pageOffset + pageOffset);
             float scaleFactor = Math.max(0.85f, 1 - Math.abs(position - 0.14f));
             page.setTranslationX(offset);
             page.setScaleY(scaleFactor);
             page.setAlpha(scaleFactor);
-        });
+        });*/
         fragmentHomeBinding.topBannerViewPager.setPageTransformer(transformer);
     }
 }
