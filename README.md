@@ -32,7 +32,16 @@ You can clone code and run it using :
     <td><img src="https://user-images.githubusercontent.com/72816466/208300501-a26b621e-e540-4ce5-a222-ae66e72f833f.jpg" width="350"></td>
     <td><img src="https://user-images.githubusercontent.com/72816466/208300637-9da6d52e-ce1f-4104-8893-eafed541b731.jpg" width="350"></td>
   </tr>
- 
+ <tr>
+    <th>Empty Search</th>
+    <th>Search</th>
+    <th>Search</th>
+  </tr>
+  <tr>
+    <td><img src="https://user-images.githubusercontent.com/72816466/208300922-12af9a20-2c35-4297-8569-020af046e8a8.jpg" width="350"></td>
+    <td><img src="https://user-images.githubusercontent.com/72816466/208300919-2014531e-f603-4b35-a3e7-67a9aa262273.jpg" width="350"></td>
+    <td><img src="https://user-images.githubusercontent.com/72816466/208300914-d69e0cd4-826e-420d-9c75-9dbe28c14a7f.jpg" width="350"></td>
+  </tr>
 </table> 
 
 ## Architecture
