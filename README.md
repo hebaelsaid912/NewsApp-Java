@@ -30,11 +30,10 @@ You can clone code and run it using :
   <tr>
     <td><img src="https://user-images.githubusercontent.com/72816466/208300494-d2514291-53f1-4d88-aff2-f5cc60deaf3f.jpg" width="350"></td>
     <td><img src="https://user-images.githubusercontent.com/72816466/208300501-a26b621e-e540-4ce5-a222-ae66e72f833f.jpg" width="350"></td>
-    <td><img src="https://user-images.githubusercontent.com/72816466/208300505-082c55f4-8ee4-46f5-9fdc-d8139a345867.jpg" width="350"></td>
+    <td><img src="https://user-images.githubusercontent.com/72816466/208300637-9da6d52e-ce1f-4104-8893-eafed541b731.jpg" width="350"></td>
   </tr>
  
 </table> 
-
 
 ## Architecture
 The following diagram shows all the modules and how each module interact with one another after. This architecture using a layered software architecture. 
