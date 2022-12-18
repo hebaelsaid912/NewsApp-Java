@@ -21,11 +21,20 @@ You can clone code and run it using :
 - Search for all news you asked to read more.
 
 ## App ScreenShots 
-![photo_2022-11-07_20-04-04](https://user-images.githubusercontent.com/72816466/201654580-9ce4651b-9fc8-4b26-a9ee-532e6ef541e0.jpg)
-![photo_2022-11-07_20-04-05](https://user-images.githubusercontent.com/72816466/201654608-6aca35c7-2b0c-41f5-8b22-d748cd892a05.jpg)
-![photo_2022-11-07_20-04-05 (2)](https://user-images.githubusercontent.com/72816466/201654629-f2e4c683-7e89-4c9c-bf60-35660e318533.jpg)
-![photo_2022-11-14_14-01-05](https://user-images.githubusercontent.com/72816466/201655386-99b46416-1742-469e-aff3-c31fb8896e3f.jpg)
-![photo_2022-11-14_14-01-09](https://user-images.githubusercontent.com/72816466/201655398-a8a9c054-af92-424b-9d8b-ce7d509c7293.jpg)
+ <table>
+  <tr>
+    <th>Home</th>
+    <th>Details</th>
+    <th>Details</th>
+  </tr>
+  <tr>
+    <td><img src="https://user-images.githubusercontent.com/72816466/208300494-d2514291-53f1-4d88-aff2-f5cc60deaf3f.jpg" width="350"></td>
+    <td><img src="https://user-images.githubusercontent.com/72816466/208300501-a26b621e-e540-4ce5-a222-ae66e72f833f.jpg" width="350"></td>
+    <td><img src="https://user-images.githubusercontent.com/72816466/208300505-082c55f4-8ee4-46f5-9fdc-d8139a345867.jpg" width="350"></td>
+  </tr>
+ 
+</table> 
+
 
 ## Architecture
 The following diagram shows all the modules and how each module interact with one another after. This architecture using a layered software architecture. 
