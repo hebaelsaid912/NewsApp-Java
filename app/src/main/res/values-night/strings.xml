@@ -8,4 +8,5 @@
     <string name="there_is_no_news_appear">There is no news appear</string>
     <string name="there_is_no_internet_connection">There is no internet connection</string>
     <string name="please_check_your_internet_connection">Please, check your internet connection</string>
+    <string name="back_image">back image</string>
 </resources>
